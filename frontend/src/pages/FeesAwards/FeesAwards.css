@@ -1,0 +1,231 @@
+/* Fees & Awards Page */
+
+.fees-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1c0f53 0%, #221060 100%);
+}
+
+/* Hero Section */
+.fees-hero {
+  padding: 120px 18px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.fees-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255, 150, 55, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255, 120, 40, 0.06) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.fees-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.fees-page-title {
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.96);
+  font-weight: 900;
+  font-size: clamp(36px, 8vw, 64px);
+  letter-spacing: 3px;
+  line-height: 1.05;
+  text-transform: uppercase;
+  transform: skewX(-8deg);
+  text-shadow: 0 5px 0 rgba(0, 0, 0, 0.35), 0 20px 42px rgba(0, 0, 0, 0.3);
+  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.28);
+}
+
+.fees-page-subtitle {
+  font-size: clamp(16px, 2.5vw, 20px);
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+/* Table Section */
+.fees-table-section {
+  padding: 20px 18px 80px;
+  position: relative;
+}
+
+.fees-page-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.fees-table-wrapper {
+  overflow-x: auto;
+  border-radius: 0;
+  border: 3px solid #3d3d3d;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.4), 0 20px 50px rgba(0, 0, 0, 0.5);
+  background: #4a4a4a;
+}
+
+.fees-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+}
+
+.fees-table thead {
+  background: #4a4a4a;
+}
+
+.fees-table th {
+  padding: 20px 24px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ffffff;
+  border: 2px solid #3d3d3d;
+  background: #4a4a4a;
+}
+
+.fees-table tbody tr {
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.fees-table tbody tr:nth-child(even) {
+  background: #f5f5f5;
+}
+
+.fees-table tbody tr:hover {
+  background: #e8e8e8;
+}
+
+.fees-table td {
+  padding: 16px 24px;
+  font-size: 15px;
+  color: #1a1a1a;
+  vertical-align: middle;
+  text-align: center;
+  border: 2px solid #3d3d3d;
+  font-weight: 600;
+}
+
+.fees-table .sport-name {
+  font-weight: 900;
+  color: #1a1a1a;
+  background: #e0e0e0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
+.fees-table .category-name {
+  color: #1a1a1a;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  background: #f0f0f0;
+}
+
+.fees-table .entry-fee {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.fees-table .winner-prize {
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.fees-table .runner-prize {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Note Section */
+.fees-note {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  padding: 18px 26px;
+  background: rgba(255, 150, 55, 0.1);
+  border-radius: 12px;
+  border-left: 4px solid #ffb24a;
+}
+
+.fees-note .note-icon {
+  font-size: 22px;
+}
+
+.fees-note p {
+  margin: 0;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+.fees-note strong {
+  color: #ffb24a;
+  font-weight: 800;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fees-hero {
+    padding: 100px 14px 40px;
+  }
+
+  .fees-table-section {
+    padding: 20px 14px 60px;
+  }
+
+  .fees-table th,
+  .fees-table td {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .fees-table th {
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 14px 12px;
+  }
+
+  .fees-table .sport-name,
+  .fees-table .category-name {
+    font-size: 11px;
+  }
+
+  .fees-note {
+    padding: 14px 18px;
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fees-page-title {
+    font-size: 32px;
+    letter-spacing: 2px;
+  }
+
+  .fees-table th,
+  .fees-table td {
+    padding: 10px 8px;
+    font-size: 11px;
+  }
+
+  .fees-table {
+    min-width: 500px;
+  }
+}

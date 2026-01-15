@@ -54,6 +54,14 @@ export const sportsData = [
     description: 'Team based sports events',
     sports: [
       {
+        id: 'cricket',
+        name: 'Cricket',
+        type: SPORT_TYPES.TEAM,
+        teamSize: 15,
+        fee: 800,
+        description: '11 Players + 4 Substitutes (T20 Format)',
+      },
+      {
         id: 'tug_of_war',
         name: 'Tug of War',
         type: SPORT_TYPES.TEAM,

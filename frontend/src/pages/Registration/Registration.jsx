@@ -160,7 +160,7 @@ export default function Registration() {
           email: formData.email,
           contact: formData.mobileNo,
         },
-        theme: { color: '#667eea' },
+        theme: { color: '#ffb24a' },
         handler: async function (response) {
           // Verify payment and register
           const verifyResult = await verifyPaymentAndRegister(

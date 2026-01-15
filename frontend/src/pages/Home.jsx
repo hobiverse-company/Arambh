@@ -4,6 +4,8 @@ import { homeHero, homeSponsors } from "../data/homeData";
 import SportsSection from "../sections/SportsSection";
 import ScheduleSection from "../sections/ScheduleSection";
 import ContactSection from "../sections/ContactSection";
+import CommitteeSection from "../sections/CommitteeSection";
+import FeesSection from "../sections/FeesSection";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 

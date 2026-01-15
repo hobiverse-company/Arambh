@@ -74,12 +74,12 @@
 
 .selector-field select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  border-color: #ffb24a;
+  box-shadow: 0 0 0 3px rgba(255, 150, 55, 0.15);
 }
 
 .selected-sport-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ffb24a 0%, #ff8e2f 50%, #f1771f 100%);
   border-radius: 12px;
   padding: 20px;
   margin-top: 20px;
@@ -124,7 +124,7 @@
 .regPayBtn {
   width: 100%;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ffb24a 0%, #ff8e2f 50%, #f1771f 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -132,13 +132,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 150, 55, 0.4);
   margin-top: 10px;
 }
 
 .regPayBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 6px 20px rgba(255, 150, 55, 0.5);
 }
 
 .regPayBtn:disabled {
@@ -155,8 +155,8 @@
   margin: 20px auto;
   padding: 12px 24px;
   background: transparent;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #ffb24a;
+  border: 2px solid #ffb24a;
   border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
@@ -164,7 +164,7 @@
 }
 
 .regBackBtn:hover {
-  background: #667eea;
+  background: #ffb24a;
   color: white;
 }
 
@@ -204,8 +204,8 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  border-color: #ffb24a;
+  box-shadow: 0 0 0 3px rgba(255, 150, 55, 0.15);
 }
 
 /* File Input */
@@ -220,14 +220,14 @@ input[type="file"] {
 }
 
 input[type="file"]:hover {
-  border-color: #667eea;
-  background: #f0f0ff;
+  border-color: #ffb24a;
+  background: #fff8f0;
 }
 
 /* Remove Button */
 button[type="button"] {
   padding: 8px 16px;
-  background: #ff4757;
+  background: #ff8e2f;
   color: white;
   border: none;
   border-radius: 8px;
@@ -237,5 +237,5 @@ button[type="button"] {
 }
 
 button[type="button"]:hover {
-  background: #ff3344;
+  background: #f1771f;
 }

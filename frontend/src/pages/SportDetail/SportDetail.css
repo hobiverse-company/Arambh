@@ -1,0 +1,598 @@
+/* Sport Detail Page - Matching Main Site UI */
+
+.sport-detail-container {
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* Hero Section */
+.sport-hero {
+  position: relative;
+  padding: 100px 18px 60px;
+  background: linear-gradient(180deg, #1c0f53 0%, #221060 100%);
+  overflow: hidden;
+}
+
+.sport-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255, 150, 55, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255, 120, 40, 0.1) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.sport-hero-content {
+  max-width: 1180px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.sport-breadcrumb {
+  font-size: 14px;
+  margin-bottom: 24px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.breadcrumb-link {
+  color: #ffb24a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+  color: #ff8e2f;
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  margin: 0 8px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.breadcrumb-current {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.sport-title {
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.96);
+  font-weight: 900;
+  font-size: clamp(36px, 8vw, 64px);
+  letter-spacing: 2px;
+  line-height: 1.05;
+  text-transform: uppercase;
+  transform: skewX(-8deg);
+  text-shadow: 0 5px 0 rgba(0, 0, 0, 0.35), 0 20px 42px rgba(0, 0, 0, 0.3);
+  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.28);
+}
+
+.sport-category {
+  font-size: clamp(14px, 2vw, 18px);
+  color: #ffb24a;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.sport-overview {
+  font-size: clamp(14px, 1.8vw, 18px);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 800px;
+  margin: 0 auto 28px;
+}
+
+.sport-fee-badge {
+  display: inline-block;
+  padding: 14px 32px;
+  background: linear-gradient(180deg, #ffb24a 0%, #ff8e2f 45%, #f1771f 100%);
+  color: #1c0f53;
+  font-weight: 900;
+  font-size: clamp(16px, 2vw, 20px);
+  border-radius: 14px;
+  border: 2px solid #d3651c;
+  box-shadow: 0 8px 0 rgba(140, 60, 15, 0.95), 0 16px 24px rgba(0, 0, 0, 0.35);
+  letter-spacing: 1px;
+  transform: skewX(-8deg);
+  text-transform: uppercase;
+}
+
+/* Section Styles */
+.sport-section {
+  max-width: 1180px;
+  margin: 40px auto;
+  padding: 0 18px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid rgba(255, 150, 55, 0.4);
+}
+
+.section-icon {
+  font-size: 28px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(34, 20, 96, 0.92) 0%, rgba(23, 12, 70, 0.92) 100%);
+  border-radius: 14px;
+  border: 2px solid rgba(255, 150, 55, 0.8);
+  box-shadow: 0 0 20px rgba(255, 120, 40, 0.3);
+}
+
+.section-title {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.96);
+  font-weight: 900;
+  font-size: clamp(22px, 4vw, 32px);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transform: skewX(-6deg);
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Eligibility Section */
+.eligibility-section {
+  background: linear-gradient(180deg, #1c0f53 0%, #221060 100%);
+  border-radius: 18px;
+  padding: 32px;
+  border: 2px solid rgba(255, 150, 55, 0.6);
+  box-shadow: 0 0 30px rgba(255, 120, 40, 0.2), 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.eligibility-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.eligibility-card {
+  background: linear-gradient(180deg, rgba(34, 20, 96, 0.8) 0%, rgba(23, 12, 70, 0.8) 100%);
+  border: 2px solid rgba(255, 150, 55, 0.5);
+  border-radius: 14px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 2px rgba(255, 120, 40, 0.1) inset;
+}
+
+.eligibility-card:hover {
+  transform: translateY(-6px);
+  border-color: #ffb24a;
+  box-shadow: 0 0 25px rgba(255, 120, 40, 0.4), 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.eligibility-label {
+  font-size: 12px;
+  color: #ffb24a;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.eligibility-value {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* Rules Section */
+.rules-section {
+  background: linear-gradient(180deg, #1c0f53 0%, #221060 100%);
+  border-radius: 18px;
+  padding: 32px;
+  border: 2px solid rgba(255, 150, 55, 0.6);
+  box-shadow: 0 0 30px rgba(255, 120, 40, 0.2), 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.rules-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.rule-category {
+  background: linear-gradient(180deg, rgba(34, 20, 96, 0.7) 0%, rgba(23, 12, 70, 0.7) 100%);
+  border: 2px solid rgba(255, 150, 55, 0.4);
+  border-radius: 14px;
+  padding: 28px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 2px rgba(255, 120, 40, 0.08) inset;
+}
+
+.rule-category:hover {
+  border-color: rgba(255, 150, 55, 0.7);
+  box-shadow: 0 0 20px rgba(255, 120, 40, 0.25);
+}
+
+.rule-category-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: clamp(18px, 3vw, 24px);
+  color: rgba(255, 255, 255, 0.96);
+  margin-bottom: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transform: skewX(-4deg);
+}
+
+.rule-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(180deg, #ffb24a 0%, #ff8e2f 45%, #f1771f 100%);
+  color: #1c0f53;
+  font-weight: 900;
+  border-radius: 10px;
+  font-size: 18px;
+  border: 2px solid #d3651c;
+  box-shadow: 0 4px 0 rgba(140, 60, 15, 0.8);
+  transform: skewX(4deg);
+}
+
+.rule-points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rule-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  padding: 10px 14px;
+  background: rgba(255, 150, 55, 0.05);
+  border-radius: 10px;
+  border-left: 4px solid #ffb24a;
+  transition: all 0.2s ease;
+}
+
+.rule-point:hover {
+  background: rgba(255, 150, 55, 0.12);
+  transform: translateX(6px);
+}
+
+.rule-bullet {
+  color: #ffb24a;
+  font-weight: 900;
+  font-size: 18px;
+  min-width: 20px;
+}
+
+/* Penalties Section */
+.penalties-section {
+  background: linear-gradient(180deg, #1c0f53 0%, #221060 100%);
+  border-radius: 18px;
+  padding: 32px;
+  border: 2px solid rgba(255, 150, 55, 0.6);
+  box-shadow: 0 0 30px rgba(255, 120, 40, 0.2), 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.penalties-section .section-icon {
+  background: linear-gradient(180deg, rgba(34, 20, 96, 0.92) 0%, rgba(23, 12, 70, 0.92) 100%);
+  border-color: rgba(255, 150, 55, 0.8);
+  box-shadow: 0 0 20px rgba(255, 120, 40, 0.3);
+}
+
+.penalties-section .section-header {
+  border-bottom-color: rgba(255, 150, 55, 0.4);
+}
+
+.penalties-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.penalty-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  background: rgba(255, 150, 55, 0.05);
+  border-left: 4px solid #ffb24a;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.penalty-item:hover {
+  background: rgba(255, 150, 55, 0.12);
+  transform: translateX(6px);
+}
+
+.penalty-bullet {
+  color: #ffb24a;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.penalty-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Format Section */
+.format-section {
+  background: linear-gradient(180deg, #1c0f53 0%, #221060 100%);
+  border-radius: 18px;
+  padding: 32px;
+  border: 2px solid rgba(255, 150, 55, 0.6);
+  box-shadow: 0 0 30px rgba(255, 120, 40, 0.2), 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.format-section .section-icon {
+  background: linear-gradient(180deg, rgba(34, 20, 96, 0.92) 0%, rgba(23, 12, 70, 0.92) 100%);
+  border-color: rgba(255, 150, 55, 0.8);
+  box-shadow: 0 0 20px rgba(255, 120, 40, 0.3);
+}
+
+.format-section .section-header {
+  border-bottom-color: rgba(255, 150, 55, 0.4);
+}
+
+.format-content {
+  padding: 20px 24px;
+  background: rgba(255, 150, 55, 0.05);
+  border-radius: 12px;
+  border-left: 4px solid #ffb24a;
+}
+
+.format-description {
+  font-size: clamp(16px, 2vw, 20px);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.8;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* CTA Section */
+.sport-cta-section {
+  max-width: 1180px;
+  margin: 50px auto 30px;
+  padding: 50px 32px;
+  background: linear-gradient(180deg, #1c0f53 0%, #221060 100%);
+  border-radius: 18px;
+  border: 2px solid rgba(255, 150, 55, 0.7);
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255, 120, 40, 0.25), 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.cta-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.96);
+  font-weight: 900;
+  font-size: clamp(28px, 5vw, 42px);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transform: skewX(-8deg);
+  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.cta-description {
+  font-size: clamp(14px, 2vw, 18px);
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.register-btn,
+.back-btn {
+  appearance: none;
+  padding: 16px 36px;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  transform: skewX(-8deg);
+}
+
+.register-btn {
+  background: linear-gradient(180deg, #ffb24a 0%, #ff8e2f 45%, #f1771f 100%);
+  color: #1c0f53;
+  border: 2px solid #d3651c;
+  box-shadow: 0 8px 0 rgba(140, 60, 15, 0.95), 0 16px 24px rgba(0, 0, 0, 0.35);
+}
+
+.register-btn:hover {
+  transform: skewX(-8deg) translateY(-4px);
+  box-shadow: 0 12px 0 rgba(140, 60, 15, 0.95), 0 20px 30px rgba(0, 0, 0, 0.4);
+}
+
+.register-btn:active {
+  transform: skewX(-8deg) translateY(2px);
+  box-shadow: 0 4px 0 rgba(140, 60, 15, 0.95), 0 10px 18px rgba(0, 0, 0, 0.3);
+}
+
+.back-btn {
+  background: transparent;
+  color: #ffb24a;
+  border: 3px solid #ffb24a;
+  box-shadow: 0 8px 0 rgba(140, 60, 15, 0.6), 0 16px 24px rgba(0, 0, 0, 0.25);
+}
+
+.back-btn:hover {
+  background: rgba(255, 178, 74, 0.1);
+  transform: skewX(-8deg) translateY(-4px);
+  box-shadow: 0 12px 0 rgba(140, 60, 15, 0.6), 0 20px 30px rgba(0, 0, 0, 0.3);
+}
+
+.back-btn:active {
+  transform: skewX(-8deg) translateY(2px);
+  box-shadow: 0 4px 0 rgba(140, 60, 15, 0.6), 0 10px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Sport Not Found */
+.sport-not-found {
+  text-align: center;
+  padding: 120px 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.sport-not-found h1 {
+  font-size: clamp(28px, 5vw, 42px);
+  color: rgba(255, 255, 255, 0.96);
+  margin-bottom: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: skewX(-8deg);
+  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.sport-not-found p {
+  font-size: clamp(14px, 2vw, 18px);
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sport-hero {
+    padding: 80px 14px 40px;
+  }
+
+  .sport-section {
+    padding: 0 14px;
+    margin: 30px auto;
+  }
+
+  .eligibility-section,
+  .rules-section,
+  .penalties-section,
+  .format-section {
+    padding: 24px 18px;
+  }
+
+  .eligibility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .section-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+  }
+
+  .rule-category {
+    padding: 20px 16px;
+  }
+
+  .rule-category-title {
+    flex-wrap: wrap;
+  }
+
+  .rule-point {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .sport-cta-section {
+    margin: 40px 14px 20px;
+    padding: 36px 20px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .register-btn,
+  .back-btn {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .sport-hero {
+    padding: 70px 12px 30px;
+  }
+
+  .sport-fee-badge {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  .eligibility-section,
+  .rules-section,
+  .penalties-section,
+  .format-section {
+    padding: 20px 14px;
+    border-radius: 14px;
+  }
+
+  .eligibility-card {
+    padding: 18px;
+  }
+
+  .rule-category {
+    padding: 16px 12px;
+  }
+
+  .rule-number {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .penalty-item {
+    padding: 12px 14px;
+  }
+
+  .sport-cta-section {
+    padding: 28px 16px;
+    border-radius: 14px;
+  }
+}
