@@ -1,6 +1,6 @@
 import "./ContactSection.css";
 import ProfileCard from "../components/profileCard";
-import { contactCards, contactPage } from "../data/contactData";
+import { contactCards, contactCards2, contactPage, contactPage2 } from "../data/contactData";
 
 export default function ContactSection() {
   return (
@@ -10,18 +10,56 @@ export default function ContactSection() {
           <h2 className="contactTitle">{contactPage.title}</h2>
           <p className="contactSubtitle">{contactPage.subtitle}</p>
         </header>
-
-        <div className="contactGrid" aria-label="Contact cards">
-          {contactCards.map((c) => (
-            <ProfileCard
-              key={c.key}
-              name={c.name}
-              role={c.role}
-              imageSrc={c.imageSrc}
-              showSocials={false}
-            />
-          ))}
+        <section className="liveScoresTicker" aria-label="Live Scores">
+          <div className="liveScoresTrack">
+          <div className="liveScoresScroll">
+            <div
+              className="contactGrid liveScrollItem"
+              aria-label="Contact cards"
+            >
+              {contactCards.map((c) => (
+                <ProfileCard
+                  key={c.key}
+                  name={c.name}
+                  role={c.role}
+                  imageSrc={c.imageSrc}
+                  showSocials={false}
+                />
+              ))}
+            </div>
+          </div>
         </div>
+        </section>
+        
+      </div>
+      
+
+      <div className="contactInner" style={{ marginTop: "50px" }}>
+        <header className="contactHeader" aria-label="Contact section header" >
+          <h2 className="contactTitle">{contactPage2.title}</h2>
+          <p className="contactSubtitle">{contactPage2.subtitle}</p>
+        </header>
+        <section className="liveScoresTicker" aria-label="Live Scores">
+          <div className="liveScoresTrack">
+          <div className="liveScoresScroll">
+            <div
+              className="contactGrid liveScrollItem"
+              aria-label="Contact cards"
+            >
+              {contactCards2.map((c) => (
+                <ProfileCard
+                  key={c.key}
+                  name={c.name}
+                  role={c.role}
+                  imageSrc={c.imageSrc}
+                  showSocials={false}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+        </section>
+        
       </div>
     </section>
   );

@@ -9,6 +9,7 @@ import AagaazThinking from "../sections/AagaazThinking";
 import ChiefGuest from "../sections/ChiefGuest";
 import vcSir from "../assets/chief-guest/vc-image.jpeg";
 import deanSir from "../assets/chief-guest/dean-sir.jpeg";
+import financeOfficer from "../assets/chief-guest/financeOfficer.png";
 import registrarMam from "../assets/chief-guest/registrar-mam.jpeg";
 import { useMemo } from "react";
 
@@ -42,6 +43,12 @@ const members = [
     designation: "Registrar",
     role: "University of Lucknow",
     image: registrarMam,
+  },
+  {
+    name: "Ms. Himani Chaudhary",
+    designation: "Finance Officer",
+    role: "University of Lucknow",
+    image: financeOfficer,
   },
 ];
 

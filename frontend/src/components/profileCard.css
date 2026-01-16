@@ -109,6 +109,9 @@
   font-weight: 900;
   font-size: 22px;
   line-height: 1.1;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .profileRole {
@@ -116,6 +119,10 @@
   color: rgba(255, 160, 80, 0.95);
   font-weight: 700;
   font-size: 14px;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .profileMeta {
@@ -178,5 +185,14 @@
   .profileBody {
     align-items: center;
     text-align: center;
+  }
+
+  .profileName {
+    font-size: 16px;
+  }
+
+  .profileRole {
+    font-size: 11px;
+    margin: 4px 0 8px;
   }
 }

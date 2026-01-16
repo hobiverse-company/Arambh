@@ -73,39 +73,39 @@ export const feesAndAwards = [
   {
     sport: "Table Tennis",
     category: "Male Doubles",
-    entryFee: 500,
+    entryFee: 200,
     winner: "Will be Announced Soon",
   },
   {
     sport: "Table Tennis",
     category: "Female Doubles",
-    entryFee: 500,
+    entryFee: 200,
     winner: "Will be Announced Soon",
   },
   {
     sport: "Table Tennis",
     category: "Mixed Doubles",
-    entryFee: 500,
+    entryFee: 200,
     winner: "Will be Announced Soon",
   },
   
   // Indoor/Board Games
-  {
-    sport: "Chess",
-    category: "Mixed",
-    entryFee: 250,
-    winner: "Will be Announced Soon",
-  },
+  // {
+  //   sport: "Chess",
+  //   category: "Mixed",
+  //   entryFee: 100,
+  //   winner: "Will be Announced Soon",
+  // },
   {
     sport: "Carrom",
     category: "Single Mixed",
-    entryFee: 250,
+    entryFee: 100,
     winner: "Will be Announced Soon",
   },
   {
     sport: "Carrom",
     category: "Doubles Mixed",
-    entryFee: 500,
+    entryFee: 100,
     winner: "Will be Announced Soon",
   },
   {
