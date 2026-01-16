@@ -87,6 +87,7 @@
 
 .contactGrid {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 18px;
   align-items: stretch;
@@ -96,6 +97,13 @@
   width: calc(25% - 14px);
   max-width: 240px;
   flex-shrink: 0;
+}
+
+@media (max-width: 560px) {
+  .contactGrid .profileCard {
+    width: 100%;
+    max-width: 280px;
+  }
 }
 
 /* Keep cards compact so 4-per-row stays clean */
@@ -134,19 +142,20 @@
 }
 
 @media (max-width: 1200px) {
-  .contactGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .contactGrid .profileCard {
+    width: calc(33.33% - 14px);
   }
 }
 
 @media (max-width: 900px) {
-  .contactGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .contactGrid .profileCard {
+    width: calc(50% - 14px);
   }
 }
 
 @media (max-width: 560px) {
-  .contactGrid {
-    grid-template-columns: 1fr;
+  .contactGrid .profileCard {
+    width: 100%;
+    max-width: 280px;
   }
 }

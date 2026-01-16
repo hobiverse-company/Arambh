@@ -172,11 +172,11 @@
 
 @media (max-width: 520px) {
   .profileCardInner {
-    align-items: flex-start;
+    align-items: center;
   }
 
   .profileBody {
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
   }
 }
