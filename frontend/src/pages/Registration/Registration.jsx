@@ -226,9 +226,16 @@ export default function Registration() {
   return (
     <main className="regPage">
       <Toaster
+        containerStyle={{
+          zIndex: 99999,
+          top: 100,
+        }}
         toastOptions={{
-          success: { style: { background: "#10B981", color: "white" } },
-          error: { style: { background: "#EF4444", color: "white" } },
+          style: {
+            zIndex: 99999,
+          },
+          success: { style: { background: "#10B981", color: "white", zIndex: 99999 } },
+          error: { style: { background: "#EF4444", color: "white", zIndex: 99999 } },
         }}
       />
 
