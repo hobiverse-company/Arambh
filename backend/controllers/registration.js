@@ -85,13 +85,6 @@ const createRegistration = async (req, res) => {
         }
 
         if (error.code === 11000) {
-            // Check which field caused the duplicate error
-            if (error.keyPattern?.aadharNo) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'This Aadhar number is already registered. One person can register only once.',
-                });
-            }
             return res.status(400).json({
                 success: false,
                 message: 'Registration failed. Please try again.',

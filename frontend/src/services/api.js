@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Create axios instance with base config
 const api = axios.create({
-    baseURL: 'https://arambhbackend.onrender.com/api',
+    baseURL: 'http://localhost:5000/api',
     timeout: 30000,
     headers: {
         'Accept': 'application/json',
@@ -105,7 +105,7 @@ export const getAllRegistrations = async () => {
 export const warmupBackend = async () => {
     try {
         // Call health endpoint to wake up the server
-        
+
         const baseUrl = api.defaults.baseURL.replace('/api', '');
         await fetch(`${baseUrl}/health`, { method: 'GET' });
         console.log('Backend warm-up initiated');

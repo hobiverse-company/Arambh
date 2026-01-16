@@ -156,7 +156,7 @@ const verifyPayment = async (req, res) => {
             orderId: razorpay_order_id,
             paymentId: razorpay_payment_id,
             signature: razorpay_signature,
-            amount: formData.amount,
+            amount: parseInt(formData.amount) || formData.fee || 100,
             name: formData.name,
             email: formData.email,
             mobileNo: formData.mobileNo,
@@ -186,14 +186,7 @@ const verifyPayment = async (req, res) => {
         });
 
     } catch (error) {
-
-        // Handle duplicate Aadhar
-        if (error.code === 11000 && error.keyPattern?.aadharNo) {
-            return res.status(400).json({
-                success: false,
-                message: 'This Aadhar number is already registered.',
-            });
-        }
+        console.error('Payment verification error:', error);
 
         res.status(500).json({
             success: false,
