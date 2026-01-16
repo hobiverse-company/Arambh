@@ -1,6 +1,5 @@
 import "./FeesAwards.css";
 import { feesAndAwards } from "../../data/feesData";
-import Footer from "../../components/Footer";
 
 export default function FeesAwards() {
   const formatAmount = (amount) => {
@@ -70,8 +69,6 @@ export default function FeesAwards() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </main>
   );
 }
