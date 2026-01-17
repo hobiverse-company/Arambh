@@ -20,8 +20,9 @@ const getRegistrationEmailHTML = (data) => {
           <!-- Header -->
           <tr>
             <td style="background: linear-gradient(135deg, #e94560 0%, #ff6b35 100%); padding: 30px; text-align: center;">
+              <img src="https://www.aagaaz.online/aagaaz-logo.png" alt="AAGAAZ" style="width: 80px; height: 80px; margin-bottom: 15px; border-radius: 12px;" />
               <h1 style="margin: 0; color: #fff; font-size: 28px; font-weight: 700; letter-spacing: 2px;">
-                🏆 AAGAAZ 2026
+                AAGAAZ 2026
               </h1>
               <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px;">
                 The Arena Calls
