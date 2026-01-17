@@ -11,6 +11,7 @@ const SportsManagerCard = ({ manager, sportName }) => {
               src={manager.image}
               alt={manager.name}
               className="sm-image"
+              loading="lazy"
             />
           ) : (
             <div className="sm-image-placeholder">

@@ -53,15 +53,21 @@ const members = [
 
 export default function Home() {
   const navigate = useNavigate();
-  const fireBubbles = useMemo(() => generateFireBubbles(25), []);
+
+  // Reduce animations on mobile for better performance
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const bubbleCount = isMobile ? 8 : 25;
+  const emberCount = isMobile ? 5 : 15;
+
+  const fireBubbles = useMemo(() => generateFireBubbles(bubbleCount), [bubbleCount]);
   const embers = useMemo(
     () =>
-      Array.from({ length: 15 }, () => ({
+      Array.from({ length: emberCount }, () => ({
         left: Math.random() * 100,
         delay: Math.random() * 8,
         duration: Math.random() * 4 + 6,
       })),
-    [],
+    [emberCount],
   );
 
   const [heroTitlePrimary, heroTitleSecondary] = homeHero.title.split(/:\s*/);
