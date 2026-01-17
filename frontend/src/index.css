@@ -23,3 +23,38 @@ body {
   background-size: cover;
   background-attachment: fixed;
 }
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+
+  /* GPU acceleration for animated elements */
+  .fireBubble,
+  .ember {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  /* Reduce blur for better performance */
+  .fireBubble {
+    filter: none !important;
+    box-shadow: 0 0 5px rgba(255, 100, 0, 0.4) !important;
+  }
+
+  /* Simplify ember shadows */
+  .ember {
+    box-shadow: 0 0 4px #ff6600 !important;
+  }
+
+  /* Reduce glow animations intensity */
+  .heroTitle,
+  .heroEventDates {
+    animation: none !important;
+    text-shadow: 0 5px 0 rgba(0, 0, 0, 0.35) !important;
+  }
+
+  /* Speed up scrolling animations */
+  .liveScoresScroll {
+    animation-duration: 15s !important;
+  }
+}
