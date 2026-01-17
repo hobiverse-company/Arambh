@@ -173,7 +173,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Live Scores Ticker */}
+     
+      {/* <SportsManagerCard
+        manager={sportsManagers.chess}
+        sportName="Chess"
+      /> */}
+
+      <LazySection
+        importer={() => import("../sections/ChiefGuest")}
+        componentProps={{ members }}
+        minHeight={280}
+        rootMargin="600px 0px"
+        fallback={<SportsLoader label="Warming up…" />}
+      />
+
+      <LazySection
+        importer={() => import("../sections/AagaazThinking")}
+        minHeight={220}
+        rootMargin="700px 0px"
+        fallback={<SportsLoader label="Setting the stage…" />}
+      />
+
+      <LazySection
+        importer={() => import("../sections/SportsSection")}
+        minHeight={320}
+        rootMargin="700px 0px"
+        fallback={<SportsLoader label="Loading sports…" />}
+      />
+ {/* Live Scores Ticker */}
       <section className="liveScoresTicker" aria-label="Live Scores">
         <div className="liveScoresHeader">
           <span className="liveScoresLiveDot" aria-hidden="true" />
@@ -201,32 +228,6 @@ export default function Home() {
         </p>
       </section>
 
-      {/* <SportsManagerCard
-        manager={sportsManagers.chess}
-        sportName="Chess"
-      /> */}
-
-      <LazySection
-        importer={() => import("../sections/ChiefGuest")}
-        componentProps={{ members }}
-        minHeight={280}
-        rootMargin="600px 0px"
-        fallback={<SportsLoader label="Warming up…" />}
-      />
-
-      <LazySection
-        importer={() => import("../sections/AagaazThinking")}
-        minHeight={220}
-        rootMargin="700px 0px"
-        fallback={<SportsLoader label="Setting the stage…" />}
-      />
-
-      <LazySection
-        importer={() => import("../sections/SportsSection")}
-        minHeight={320}
-        rootMargin="700px 0px"
-        fallback={<SportsLoader label="Loading sports…" />}
-      />
       <LazySection
         importer={() => import("../sections/ScheduleSection")}
         minHeight={260}
