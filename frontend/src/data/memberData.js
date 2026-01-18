@@ -20,6 +20,9 @@ import sagar from "../assets/member-image/sagar.jpeg"
 import amanSinghNishad from "../assets/member-image/amansingh.webp"
 import manvendra from "../assets/member-image/manvendra.jpeg"
 import anubhav from "../assets/member-image/anubhav.jpeg"
+import saurabh from "../assets/member-image/saurabh.jpeg"
+import anup from "../assets/member-image/anup.jpeg"
+import nilesh from "../assets/member-image/nilesh.jpeg"
 
 
 export const memberImage = {
@@ -45,4 +48,7 @@ export const memberImage = {
     , sagar
     , manvendra
     , anubhav
+    ,saurabh
+    ,anup
+    ,nilesh
 }
