@@ -1,11 +1,9 @@
 // API Service - Axios with Razorpay payment integration
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://arambhbackend.onrender.com/api';
-
 // Create axios instance with base config
 const api = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL: 'https://arambhbackend.onrender.com/api',
     timeout: 30000,
     headers: {
         'Accept': 'application/json',
