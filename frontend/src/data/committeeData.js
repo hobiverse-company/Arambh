@@ -165,7 +165,7 @@ export const committeeData = {
         image: memberImage.arshad,
       },
       {
-        name: "Utkarsh dixit",
+        name: "Utkarsh Dixit",
         role: "Event Coordinator",
         department: "CSE, 3rd Year",
         image: memberImage.utkarsh,
