@@ -127,7 +127,7 @@ export const sportsData = [
         description: 'Singles - Individual participation',
         hasSubTypes: true,
         subTypes: [
-          { id: 'carrom_singles', name: 'Carrom', type: SPORT_TYPES.SINGLES, teamSize: 1, fee: 100},
+          { id: 'carrom_singles', name: 'Carrom', type: SPORT_TYPES.SINGLES, teamSize: 1, fee: 100 },
           // { id: 'carrom_doubles', name: 'Doubles', type: SPORT_TYPES.DOUBLES, teamSize: 2, fee: 100 },
         ],
       },
@@ -214,7 +214,7 @@ export const sportsData = [
         name: 'BGMI (Battlegrounds Mobile India)',
         type: SPORT_TYPES.SQUAD,
         teamSize: 4,
-        fee: 400,
+        fee: 200,
         description: 'Squad Only - 4 Players',
       },
       {
@@ -222,7 +222,7 @@ export const sportsData = [
         name: 'Free Fire',
         type: SPORT_TYPES.SQUAD,
         teamSize: 4,
-        fee: 400,
+        fee: 200,
         description: 'Squad Only - 4 Players',
       },
     ],

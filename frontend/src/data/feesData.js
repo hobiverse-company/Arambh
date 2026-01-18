@@ -32,7 +32,7 @@ export const feesAndAwards = [
     entryFee: 100,
     winner: "Will be Announced Soon",
   },
-  
+
   // Racquet Sports
   {
     sport: "Badminton",
@@ -88,7 +88,7 @@ export const feesAndAwards = [
     entryFee: 200,
     winner: "Will be Announced Soon",
   },
-  
+
   // Indoor/Board Games
   // {
   //   sport: "Chess",
@@ -111,15 +111,15 @@ export const feesAndAwards = [
   {
     sport: "Free Fire",
     category: "Mixed",
-    entryFee: 400,
+    entryFee: 200,
     winner: "Will be Announced Soon",
   },
-  
+
   // E-Sports
   {
     sport: "BGMI",
     category: "Mixed",
-    entryFee: 400,
+    entryFee: 200,
     winner: "Will be Announced Soon",
   }
 ];
