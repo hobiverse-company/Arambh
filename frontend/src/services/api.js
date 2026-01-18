@@ -108,7 +108,7 @@ export const warmupBackend = async () => {
     try {
         // Call health endpoint to wake up the server
 
-        const baseUrl = String(api.defaults.baseURL || '').replace(/\/++$/, '');
+        const baseUrl = String(api.defaults.baseURL || '').replace(/\/+$/, '');
         await fetch(`${baseUrl}/health`, { method: 'GET' });
         console.log('Backend warm-up initiated');
     } catch (error) {
