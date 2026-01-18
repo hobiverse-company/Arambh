@@ -1,9 +1,11 @@
 // API Service - Axios with Razorpay payment integration
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 // Create axios instance with base config
 const api = axios.create({
-    baseURL: 'https://arambhbackend.onrender.com/api',
+    baseURL: API_BASE_URL,
     timeout: 30000,
     headers: {
         'Accept': 'application/json',
@@ -106,7 +108,7 @@ export const warmupBackend = async () => {
     try {
         // Call health endpoint to wake up the server
 
-        const baseUrl = api.defaults.baseURL.replace('/api', '');
+        const baseUrl = String(api.defaults.baseURL || '').replace(/\/++$/, '');
         await fetch(`${baseUrl}/health`, { method: 'GET' });
         console.log('Backend warm-up initiated');
     } catch (error) {
