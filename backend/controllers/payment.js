@@ -80,9 +80,20 @@ const verifyPayment = async (req, res) => {
         }
 
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-        const formData = JSON.parse(req.body.formData);
 
-        // Verify signature
+        // Parse formData safely
+        let formData;
+        try {
+            formData = JSON.parse(req.body.formData);
+        } catch (parseError) {
+            console.error('FormData parse error:', parseError);
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid form data received',
+            });
+        }
+
+        // Verify Razorpay signature (confirms payment is authentic)
         const body = razorpay_order_id + '|' + razorpay_payment_id;
         const expectedSignature = crypto
             .createHmac('sha256', razorpaySecret)
@@ -92,44 +103,16 @@ const verifyPayment = async (req, res) => {
         const isAuthentic = expectedSignature === razorpay_signature;
 
         if (!isAuthentic) {
-            // Payment failed - NO DB entry
+            console.error('Signature mismatch for order:', razorpay_order_id);
             return res.status(400).json({
                 success: false,
-                message: 'Payment verification failed',
+                message: 'Payment verification failed - invalid signature',
             });
         }
 
-        // Payment verified - Upload photo to Cloudinary
-        let aadharPhotoPath = null;
-        if (req.file) {
-            const cloudinaryResult = await uploadToCloudinary(req.file.buffer);
-            aadharPhotoPath = cloudinaryResult.secure_url;
-        }
+        console.log('✅ Signature verified for order:', razorpay_order_id);
 
-        // Create registration
-        const registrationId = generateRegistrationId(formData.sportId);
-
-        const registration = new Registration({
-            name: formData.name,
-            universityName: formData.universityName,
-            branch: formData.branch,
-            teamName: formData.teamName || null,
-            mobileNo: formData.mobileNo,
-            email: formData.email,
-            aadharNo: formData.aadharNo,
-            aadharPhotoPath: aadharPhotoPath,
-            sportCategory: formData.sportCategory,
-            sportCategoryId: formData.sportCategoryId,
-            sportName: formData.sportName,
-            sportId: formData.sportId,
-            sportType: formData.sportType,
-            teamSize: parseInt(formData.teamSize) || 1,
-            registrationId,
-        });
-
-        await registration.save();
-
-        // Create payment record ONLY after successful verification
+        // STEP 1: Create Payment entry FIRST (money is already deducted)
         const payment = new Payment({
             orderId: razorpay_order_id,
             paymentId: razorpay_payment_id,
@@ -141,11 +124,58 @@ const verifyPayment = async (req, res) => {
             sportId: formData.sportId,
             sportName: formData.sportName,
             status: 'paid',
-            registrationId: registration._id,
+            registrationId: null, // Will update after registration
         });
         await payment.save();
+        console.log('✅ Payment entry created:', payment._id);
 
-        // Send confirmation email
+        // STEP 2: Create Registration entry (without photo initially)
+        const registrationId = generateRegistrationId(formData.sportId);
+
+        const registration = new Registration({
+            name: formData.name,
+            universityName: formData.universityName,
+            branch: formData.branch,
+            teamName: formData.teamName || null,
+            mobileNo: formData.mobileNo,
+            email: formData.email,
+            aadharNo: formData.aadharNo,
+            aadharPhotoPath: 'pending', // Temporary value, will update after upload
+            sportCategory: formData.sportCategory,
+            sportCategoryId: formData.sportCategoryId,
+            sportName: formData.sportName,
+            sportId: formData.sportId,
+            sportType: formData.sportType,
+            teamSize: parseInt(formData.teamSize) || 1,
+            registrationId,
+        });
+        await registration.save();
+        console.log('✅ Registration entry created:', registration._id);
+
+        // STEP 3: Link Payment to Registration
+        payment.registrationId = registration._id;
+        await payment.save();
+
+        // STEP 4: Upload photo to Cloudinary (if fails, entries still exist)
+        let aadharPhotoPath = 'pending';
+        if (req.file) {
+            try {
+                const cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+                aadharPhotoPath = cloudinaryResult.secure_url;
+                console.log('✅ Cloudinary upload success:', aadharPhotoPath);
+
+                // Update registration with actual photo URL
+                registration.aadharPhotoPath = aadharPhotoPath;
+                await registration.save();
+            } catch (uploadError) {
+                console.error('⚠️ Cloudinary upload failed (entries saved):', uploadError.message);
+                // Don't throw - entries are already saved, admin can fix photo later
+            }
+        } else {
+            console.warn('⚠️ No file received in request');
+        }
+
+        // STEP 5: Send confirmation email
         sendRegistrationEmail({
             name: formData.name,
             email: formData.email,
