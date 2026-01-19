@@ -163,6 +163,173 @@ export const sportRules = {
     registrationFee: 100,
   },
 
+  athletics_200m: {
+    name: "200 Meter Race",
+    category: "Athletics",
+    overview: "A sprint race covering 200 meters on a curved track, testing speed, endurance, and the ability to maintain speed through a turn.",
+    eligibility: {
+      gender: "Separate events for Men and Women",
+      participants: "Individual participation only",
+    },
+    rules: [
+      {
+        title: "Start",
+        points: [
+          "Athletes must use starting blocks",
+          "False start rule: First false start results in disqualification",
+          "Athletes must respond to three commands: 'On your marks', 'Set', and the clap",
+          "Staggered start positions will be used due to curved track",
+        ]
+      },
+      {
+        title: "During Race",
+        points: [
+          "Athletes must stay in their assigned lanes throughout the race",
+          "No physical contact or obstruction of other runners",
+          "Athletes must run the entire distance; stopping is grounds for disqualification",
+        ]
+      },
+      {
+        title: "Finish",
+        points: [
+          "Winner is determined by the first torso to cross the finish line",
+          "Athletes must complete the race in their assigned lane",
+        ]
+      },
+      {
+        title: "Equipment",
+        points: [
+          "Athletes may wear running spikes",
+        ]
+      }
+    ],
+    penalties: [
+      "False start: Immediate disqualification",
+      "Lane violation: Disqualification",
+      "Obstruction of another runner: Disqualification",
+      "Improper conduct: Warning or disqualification",
+    ],
+    format: "Heats, Semi-finals, and Finals (based on number of participants)",
+    support: "Ayush Gupta (7355963738)",
+    registrationFee: 100,
+  },
+
+  athletics_400m: {
+    name: "400 Meter Race",
+    category: "Athletics",
+    overview: "A sprint race covering 400 meters (one full lap), testing speed, endurance, and pacing strategy.",
+    eligibility: {
+      gender: "Separate events for Men and Women",
+      participants: "Individual participation only",
+    },
+    rules: [
+      {
+        title: "Start",
+        points: [
+          "Athletes must use starting blocks",
+          "False start rule: First false start results in disqualification",
+          "Athletes must respond to three commands: 'On your marks', 'Set', and the clap",
+          "Staggered start positions will be used due to curved track",
+        ]
+      },
+      {
+        title: "During Race",
+        points: [
+          "Athletes must stay in their assigned lanes throughout the race",
+          "No physical contact or obstruction of other runners",
+          "Athletes must run the entire distance; stopping is grounds for disqualification",
+          "Pacing and energy management is crucial for this distance",
+        ]
+      },
+      {
+        title: "Finish",
+        points: [
+          "Winner is determined by the first torso to cross the finish line",
+          "Athletes must complete the race in their assigned lane",
+        ]
+      },
+      {
+        title: "Equipment",
+        points: [
+          "Athletes may wear running spikes",
+        ]
+      }
+    ],
+    penalties: [
+      "False start: Immediate disqualification",
+      "Lane violation: Disqualification",
+      "Obstruction of another runner: Disqualification",
+      "Improper conduct: Warning or disqualification",
+    ],
+    format: "Heats, Semi-finals, and Finals (based on number of participants)",
+    support: "Ayush Gupta (7355963738)",
+    registrationFee: 100,
+  },
+
+  athletics_4x100m_relay: {
+    name: "4x100 Meter Relay",
+    category: "Athletics",
+    overview: "A relay race where 4 team members each run 100 meters, passing a baton to the next runner within a designated exchange zone.",
+    eligibility: {
+      gender: "Separate events for Men and Women",
+      participants: "Team of 4 members",
+    },
+    rules: [
+      {
+        title: "Team Composition",
+        points: [
+          "Each team consists of exactly 4 runners",
+          "All 4 runners must be registered before the event",
+          "Running order must be declared before the race",
+        ]
+      },
+      {
+        title: "Baton Exchange",
+        points: [
+          "Baton must be passed within the 20-meter exchange zone",
+          "Outgoing runner may start within a 10-meter acceleration zone before the exchange zone",
+          "Baton must be passed by hand, not thrown",
+          "If baton is dropped, only the athlete who dropped it may pick it up",
+          "Dropped baton must be recovered without obstructing other teams",
+        ]
+      },
+      {
+        title: "Start",
+        points: [
+          "First runner must use starting blocks",
+          "False start rule: First false start results in team disqualification",
+          "First runner must respond to commands: 'On your marks', 'Set', and the clap",
+        ]
+      },
+      {
+        title: "During Race",
+        points: [
+          "Each runner must stay in their assigned lane",
+          "No physical contact or obstruction of other runners",
+          "Athletes must not run outside their designated leg",
+        ]
+      },
+      {
+        title: "Finish",
+        points: [
+          "Winner is determined by when the baton (held by the final runner) crosses the finish line",
+          "Final runner must be holding the baton when crossing the finish line",
+        ]
+      }
+    ],
+    penalties: [
+      "Baton exchange outside the zone: Disqualification",
+      "Dropping baton and failing to recover: Disqualification",
+      "False start: Team disqualification",
+      "Lane violation: Disqualification",
+      "Obstruction of another team: Disqualification",
+      "Improper conduct: Warning or disqualification",
+    ],
+    format: "Heats and Finals (based on number of teams)",
+    support: "Ayush Gupta (7355963738)",
+    registrationFee: 200,
+  },
+
   // TEAM SPORTS
   tug_of_war: {
     name: "Tug of War",
@@ -983,6 +1150,63 @@ export const sportRules = {
     registrationFee: 200,
   },
 
+  clash_royale: {
+    name: "Clash Royale",
+    category: "Esports",
+    overview: "Real-time strategy battle where players compete 1v1 to destroy the opponent's Crown Towers within the time limit.",
+    eligibility: {
+      age: "Open category",
+      gender: "Open category",
+      participants: "Solo (1v1 only)",
+    },
+    rules: [
+      {
+        title: "Game Format",
+        points: [
+          "Game Mode: Friendly Battle 1v1",
+          "Level Cap: Tournament Standard (Level 11)",
+          "Format: Best of 3 (Bo3) Sets",
+          "Finals: Best of 3 (Bo3) Sets",
+        ]
+      },
+      {
+        title: "Deck Rules",
+        points: [
+          "Open Deck format (Players can change decks between battles)",
+          "All cards allowed",
+          "Evolution cards allowed (if unlocked)",
+          "No deck locking required",
+        ]
+      },
+      {
+        title: "Match Rules",
+        points: [
+          "Players must join the designated Clan or use Friend Links",
+          "Winner is decided by best of 3 formate",
+          "Draws: If a game ends in a draw,then we will decide in next round",
+          "Disconnects:If there is any error in WiFi then that round will be discarded and rematch will be played",
+        ]
+      },
+      {
+        title: "Equipment",
+        points: [
+          "Players must use their own mobile/tablet devices",
+          "Stable internet connection will be provided",
+          "Devices must have the latest Clash Royale version",
+          "Screen recording allowed for disputes",
+        ]
+      }
+    ],
+    penalties: [
+      "Toxic behavior: Warning or disqualification",
+      "Using hacks/macros: Permanent ban + disqualification",
+      "Wrong game mode settings: Rematch required",
+      "Late arrival (5 mins): Forfeit of first match",
+    ],
+    format: "Single Elimination Knockout",
+    support: "Mohammad Anas ( 7275784756 )",
+    registrationFee: 100,
+  },
   // CRICKET
   cricket: {
     name: "Cricket",
