@@ -151,7 +151,11 @@ export default function Matches() {
       });
 
       // Refresh match list (across all sports)
-      const json = await fetchMatches({ sportId: listSportId, page: 1, limit: 200 });
+      const json = await fetchMatches({
+        sportId: listSportId,
+        page: 1,
+        limit: 200,
+      });
       setMatches(json.data || []);
 
       // Reset selection
@@ -168,7 +172,11 @@ export default function Matches() {
     setResultSavingId(matchId);
     try {
       await setMatchResult({ matchId, winnerRegistrationId });
-      const json = await fetchMatches({ sportId: listSportId, page: 1, limit: 200 });
+      const json = await fetchMatches({
+        sportId: listSportId,
+        page: 1,
+        limit: 200,
+      });
       setMatches(json.data || []);
     } catch (e) {
       setMatchesError(e?.message || "Failed to set result");
@@ -184,7 +192,9 @@ export default function Matches() {
       <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-slate-900">Create match</h2>
+            <h2 className="text-lg font-semibold text-slate-900">
+              Create match
+            </h2>
             <p className="mt-1 text-sm text-slate-600">
               Pick a sport and select two student names.
             </p>
@@ -199,7 +209,9 @@ export default function Matches() {
 
         <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-12">
           <div className="md:col-span-4">
-            <label className="block text-sm font-medium text-slate-700">Sport</label>
+            <label className="block text-sm font-medium text-slate-700">
+              Sport
+            </label>
             <select
               value={createSportId}
               onChange={(e) => setCreateSportId(e.target.value)}
@@ -209,14 +221,17 @@ export default function Matches() {
               <option value="">Select sport</option>
               {sports.map((s) => (
                 <option key={s.sportId} value={s.sportId}>
-                  {(s.sportCategory ? `${s.sportCategory} · ` : "") + s.sportName}
+                  {(s.sportCategory ? `${s.sportCategory} · ` : "") +
+                    s.sportName}
                 </option>
               ))}
             </select>
           </div>
 
           <div className="md:col-span-3">
-            <label className="block text-sm font-medium text-slate-700">Student A</label>
+            <label className="block text-sm font-medium text-slate-700">
+              Student A
+            </label>
             <select
               value={registrationIdA}
               onChange={(e) => setRegistrationIdA(e.target.value)}
@@ -233,7 +248,9 @@ export default function Matches() {
           </div>
 
           <div className="md:col-span-3">
-            <label className="block text-sm font-medium text-slate-700">Student B</label>
+            <label className="block text-sm font-medium text-slate-700">
+              Student B
+            </label>
             <select
               value={registrationIdB}
               onChange={(e) => setRegistrationIdB(e.target.value)}
@@ -276,7 +293,9 @@ export default function Matches() {
           </div>
 
           <div className="w-full md:w-90">
-            <label className="block text-sm font-medium text-slate-700">Filter by sport</label>
+            <label className="block text-sm font-medium text-slate-700">
+              Filter by sport
+            </label>
             <select
               value={listSportId}
               onChange={(e) => setListSportId(e.target.value)}
@@ -286,7 +305,8 @@ export default function Matches() {
               <option value="">All sports</option>
               {sports.map((s) => (
                 <option key={s.sportId} value={s.sportId}>
-                  {(s.sportCategory ? `${s.sportCategory} · ` : "") + s.sportName}
+                  {(s.sportCategory ? `${s.sportCategory} · ` : "") +
+                    s.sportName}
                 </option>
               ))}
             </select>
@@ -303,10 +323,18 @@ export default function Matches() {
           <table className="w-full min-w-225 border-collapse text-left text-sm">
             <thead className="bg-slate-50">
               <tr className="text-slate-700">
-                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Sport</th>
-                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Match</th>
-                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Status</th>
-                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">Result</th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                  Sport
+                </th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                  Match
+                </th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                  Status
+                </th>
+                <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                  Result
+                </th>
               </tr>
             </thead>
 
@@ -338,9 +366,7 @@ export default function Matches() {
                   return (
                     <tr key={m._id} className="hover:bg-slate-50">
                       <td className="px-4 py-3 text-slate-900">
-                        <div className="font-medium">
-                          {m.sportName || "-"}
-                        </div>
+                        <div className="font-medium">{m.sportName || "-"}</div>
                         <div className="mt-0.5 text-xs text-slate-500">
                           {m.sportCategory || ""}
                         </div>
@@ -348,7 +374,9 @@ export default function Matches() {
 
                       <td className="px-4 py-3 text-slate-900">
                         <div className="font-medium">
-                          {a?.name || "-"} <span className="text-slate-400">vs</span> {b?.name || "-"}
+                          {a?.name || "-"}{" "}
+                          <span className="text-slate-400">vs</span>{" "}
+                          {b?.name || "-"}
                         </div>
                       </td>
 
@@ -368,7 +396,10 @@ export default function Matches() {
                       <td className="px-4 py-3">
                         {m.status === "completed" ? (
                           <div className="text-slate-900">
-                            Winner: <span className="font-medium">{winnerName || "-"}</span>
+                            Winner:{" "}
+                            <span className="font-medium">
+                              {winnerName || "-"}
+                            </span>
                           </div>
                         ) : (
                           <div className="flex items-center gap-2">
@@ -382,11 +413,17 @@ export default function Matches() {
                               className="h-10 rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none focus:border-slate-900"
                             >
                               <option value="">Set winner</option>
-                              <option value={a?.registrationId || ""}>{a?.name || "-"}</option>
-                              <option value={b?.registrationId || ""}>{b?.name || "-"}</option>
+                              <option value={a?.registrationId || ""}>
+                                {a?.name || "-"}
+                              </option>
+                              <option value={b?.registrationId || ""}>
+                                {b?.name || "-"}
+                              </option>
                             </select>
                             {resultSavingId === m._id ? (
-                              <span className="text-xs text-slate-500">Saving…</span>
+                              <span className="text-xs text-slate-500">
+                                Saving…
+                              </span>
                             ) : null}
                           </div>
                         )}
