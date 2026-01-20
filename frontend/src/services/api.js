@@ -53,8 +53,8 @@ export const fileToBase64 = (file) => {
     });
 };
 
-// Verify payment and complete registration
-export const verifyPaymentAndRegister = async (paymentData, formData, aadharPhoto) => {
+// Verify payment and complete registration (with retry for UPI return)
+export const verifyPaymentAndRegister = async (paymentData, formData, aadharPhoto, retryCount = 0) => {
     try {
         const data = new FormData();
 
@@ -73,6 +73,7 @@ export const verifyPaymentAndRegister = async (paymentData, formData, aadharPhot
 
         const response = await api.post('/payment/verify', data, {
             headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 90000, // 90 seconds for verify (longer for UPI return)
         });
 
         return {
@@ -81,6 +82,12 @@ export const verifyPaymentAndRegister = async (paymentData, formData, aadharPhot
             registrationId: response.data.registrationId,
         };
     } catch (error) {
+        // Retry once if network error (common after UPI app return)
+        if (retryCount < 1 && (!error.response || error.message?.includes('Network'))) {
+            console.log('Retrying verify request...');
+            await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 sec
+            return verifyPaymentAndRegister(paymentData, formData, aadharPhoto, retryCount + 1);
+        }
         return {
             success: false,
             error: error.message || 'Payment verification failed',
