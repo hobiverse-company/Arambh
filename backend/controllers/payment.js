@@ -1,7 +1,8 @@
-// Payment Controller - Handles Razorpay payment flow
+// Payment Controller - Handles Razorpay payment flow with Webhook support
 const crypto = require('crypto');
 const Payment = require('../models/Payment');
 const Registration = require('../models/Registration');
+const PendingRegistration = require('../models/PendingRegistration');
 const { getRazorpayInstance } = require('../config/razorpay');
 const { uploadToCloudinary } = require('../middleware/upload');
 const { sendRegistrationEmail } = require('../config/resend');
@@ -14,7 +15,90 @@ const generateRegistrationId = (sportId) => {
     return `ARMBH-${sportCode}-${timestamp}-${random}`;
 };
 
-// POST /api/payment/create-order - Create Razorpay order (NO DB entry here)
+// Helper: Process registration (used by both verify and webhook)
+const processRegistration = async (orderId, paymentId, signature, formData, aadharPhotoBase64) => {
+    // Check if already processed (prevent duplicates)
+    const existingPayment = await Payment.findOne({ orderId });
+    if (existingPayment) {
+        console.log('⚠️ Order already processed:', orderId);
+        return { alreadyProcessed: true, registrationId: existingPayment.registrationId };
+    }
+
+    // Create Payment entry
+    const payment = new Payment({
+        orderId,
+        paymentId,
+        signature,
+        amount: parseInt(formData.amount) || 100,
+        name: formData.name,
+        email: formData.email,
+        mobileNo: formData.mobileNo,
+        sportId: formData.sportId,
+        sportName: formData.sportName,
+        status: 'paid',
+        registrationId: null,
+    });
+    await payment.save();
+    console.log('✅ Payment entry created:', payment._id);
+
+    // Create Registration entry
+    const registrationId = generateRegistrationId(formData.sportId);
+    const registration = new Registration({
+        name: formData.name,
+        universityName: formData.universityName,
+        branch: formData.branch,
+        teamName: formData.teamName || null,
+        mobileNo: formData.mobileNo,
+        email: formData.email,
+        aadharNo: formData.aadharNo,
+        aadharPhotoPath: 'pending',
+        sportCategory: formData.sportCategory,
+        sportCategoryId: formData.sportCategoryId,
+        sportName: formData.sportName,
+        sportId: formData.sportId,
+        sportType: formData.sportType,
+        teamSize: parseInt(formData.teamSize) || 1,
+        registrationId,
+    });
+    await registration.save();
+    console.log('✅ Registration entry created:', registration._id);
+
+    // Link Payment to Registration
+    payment.registrationId = registration._id;
+    await payment.save();
+
+    // Upload photo to Cloudinary from base64
+    if (aadharPhotoBase64) {
+        try {
+            // Convert base64 to buffer
+            const base64Data = aadharPhotoBase64.replace(/^data:image\/\w+;base64,/, '');
+            const buffer = Buffer.from(base64Data, 'base64');
+
+            const cloudinaryResult = await uploadToCloudinary(buffer);
+            registration.aadharPhotoPath = cloudinaryResult.secure_url;
+            await registration.save();
+            console.log('✅ Cloudinary upload success:', cloudinaryResult.secure_url);
+        } catch (uploadError) {
+            console.error('⚠️ Cloudinary upload failed:', uploadError.message);
+        }
+    }
+
+    // Send confirmation email
+    sendRegistrationEmail({
+        name: formData.name,
+        email: formData.email,
+        sportName: formData.sportName,
+        sportType: formData.sportType,
+        teamName: formData.teamName,
+        universityName: formData.universityName,
+        registrationId: registration.registrationId,
+        amount: payment.amount,
+    }).catch(err => console.error('Email error:', err));
+
+    return { alreadyProcessed: false, registrationId: registration.registrationId };
+};
+
+// POST /api/payment/create-order - Create Razorpay order and save pending data
 const createOrder = async (req, res) => {
     try {
         const instance = getRazorpayInstance();
@@ -25,9 +109,13 @@ const createOrder = async (req, res) => {
             });
         }
 
-        const { amount, name, email, mobileNo, sportId, sportName, aadharNo } = req.body;
+        const {
+            amount, name, email, mobileNo, sportId, sportName, aadharNo,
+            universityName, branch, teamName, sportCategory, sportCategoryId,
+            sportType, teamSize, aadharPhotoBase64
+        } = req.body;
 
-        // Validate required fields only
+        // Validate required fields
         if (!amount || !name || !email || !mobileNo || !sportId || !sportName || !aadharNo) {
             return res.status(400).json({
                 success: false,
@@ -35,9 +123,7 @@ const createOrder = async (req, res) => {
             });
         }
 
-        // NO AADHAR/EMAIL VALIDATION - Allow multiple registrations
-
-        // Create Razorpay order (NO DB entry here - only after successful payment)
+        // Create Razorpay order
         const options = {
             amount: amount * 100,
             currency: 'INR',
@@ -46,8 +132,22 @@ const createOrder = async (req, res) => {
         };
 
         const order = await instance.orders.create(options);
+        console.log('✅ Razorpay order created:', order.id);
 
-        // DON'T save payment here - only after successful verification
+        // Save pending registration data (for webhook to use later)
+        const pendingReg = new PendingRegistration({
+            orderId: order.id,
+            formData: {
+                name, universityName, branch, teamName, mobileNo, email, aadharNo,
+                sportCategory, sportCategoryId, sportName, sportId, sportType,
+                teamSize: parseInt(teamSize) || 1,
+                amount: parseInt(amount),
+            },
+            aadharPhotoBase64: aadharPhotoBase64 || '',
+            status: 'pending',
+        });
+        await pendingReg.save();
+        console.log('✅ Pending registration saved for order:', order.id);
 
         res.status(201).json({
             success: true,
@@ -68,7 +168,7 @@ const createOrder = async (req, res) => {
     }
 };
 
-// POST /api/payment/verify - Verify payment and complete registration
+// POST /api/payment/verify - Verify payment (frontend callback - backup for webhook)
 const verifyPayment = async (req, res) => {
     try {
         const razorpaySecret = process.env.RAZORPAY_SECRET || process.env.RAZORPAY_KEY_SECRET;
@@ -93,16 +193,14 @@ const verifyPayment = async (req, res) => {
             });
         }
 
-        // Verify Razorpay signature (confirms payment is authentic)
+        // Verify Razorpay signature
         const body = razorpay_order_id + '|' + razorpay_payment_id;
         const expectedSignature = crypto
             .createHmac('sha256', razorpaySecret)
             .update(body.toString())
             .digest('hex');
 
-        const isAuthentic = expectedSignature === razorpay_signature;
-
-        if (!isAuthentic) {
+        if (expectedSignature !== razorpay_signature) {
             console.error('Signature mismatch for order:', razorpay_order_id);
             return res.status(400).json({
                 success: false,
@@ -112,85 +210,46 @@ const verifyPayment = async (req, res) => {
 
         console.log('✅ Signature verified for order:', razorpay_order_id);
 
-        // STEP 1: Create Payment entry FIRST (money is already deducted)
-        const payment = new Payment({
-            orderId: razorpay_order_id,
-            paymentId: razorpay_payment_id,
-            signature: razorpay_signature,
-            amount: parseInt(formData.amount) || formData.fee || 100,
-            name: formData.name,
-            email: formData.email,
-            mobileNo: formData.mobileNo,
-            sportId: formData.sportId,
-            sportName: formData.sportName,
-            status: 'paid',
-            registrationId: null, // Will update after registration
-        });
-        await payment.save();
-        console.log('✅ Payment entry created:', payment._id);
-
-        // STEP 2: Create Registration entry (without photo initially)
-        const registrationId = generateRegistrationId(formData.sportId);
-
-        const registration = new Registration({
-            name: formData.name,
-            universityName: formData.universityName,
-            branch: formData.branch,
-            teamName: formData.teamName || null,
-            mobileNo: formData.mobileNo,
-            email: formData.email,
-            aadharNo: formData.aadharNo,
-            aadharPhotoPath: 'pending', // Temporary value, will update after upload
-            sportCategory: formData.sportCategory,
-            sportCategoryId: formData.sportCategoryId,
-            sportName: formData.sportName,
-            sportId: formData.sportId,
-            sportType: formData.sportType,
-            teamSize: parseInt(formData.teamSize) || 1,
-            registrationId,
-        });
-        await registration.save();
-        console.log('✅ Registration entry created:', registration._id);
-
-        // STEP 3: Link Payment to Registration
-        payment.registrationId = registration._id;
-        await payment.save();
-
-        // STEP 4: Upload photo to Cloudinary (if fails, entries still exist)
-        let aadharPhotoPath = 'pending';
-        if (req.file) {
-            try {
-                const cloudinaryResult = await uploadToCloudinary(req.file.buffer);
-                aadharPhotoPath = cloudinaryResult.secure_url;
-                console.log('✅ Cloudinary upload success:', aadharPhotoPath);
-
-                // Update registration with actual photo URL
-                registration.aadharPhotoPath = aadharPhotoPath;
-                await registration.save();
-            } catch (uploadError) {
-                console.error('⚠️ Cloudinary upload failed (entries saved):', uploadError.message);
-                // Don't throw - entries are already saved, admin can fix photo later
-            }
-        } else {
-            console.warn('⚠️ No file received in request');
+        // Check if already processed by webhook
+        const existingPayment = await Payment.findOne({ orderId: razorpay_order_id });
+        if (existingPayment) {
+            console.log('✅ Already processed by webhook, returning success');
+            const registration = await Registration.findById(existingPayment.registrationId);
+            return res.status(200).json({
+                success: true,
+                message: 'Payment successful! Registration completed.',
+                registrationId: registration?.registrationId || 'PROCESSED',
+            });
         }
 
-        // STEP 5: Send confirmation email
-        sendRegistrationEmail({
-            name: formData.name,
-            email: formData.email,
-            sportName: formData.sportName,
-            sportType: formData.sportType,
-            teamName: formData.teamName,
-            universityName: formData.universityName,
-            registrationId: registration.registrationId,
-            amount: payment.amount,
-        }).catch(err => console.error('Email error:', err));
+        // Get pending registration data
+        const pendingReg = await PendingRegistration.findOne({ orderId: razorpay_order_id });
+        let aadharPhotoBase64 = pendingReg?.aadharPhotoBase64 || '';
+
+        // If photo sent in this request (file upload), convert to base64
+        if (req.file) {
+            aadharPhotoBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+        }
+
+        // Process registration
+        const result = await processRegistration(
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature,
+            formData,
+            aadharPhotoBase64
+        );
+
+        // Mark pending as completed
+        if (pendingReg) {
+            pendingReg.status = 'completed';
+            await pendingReg.save();
+        }
 
         res.status(200).json({
             success: true,
             message: 'Payment successful! Registration completed.',
-            registrationId: registration.registrationId,
+            registrationId: result.registrationId,
         });
 
     } catch (error) {
@@ -199,6 +258,78 @@ const verifyPayment = async (req, res) => {
             success: false,
             message: 'Payment verification failed. Please contact support.',
         });
+    }
+};
+
+// POST /api/payment/webhook - Razorpay webhook (browser-independent)
+const handleWebhook = async (req, res) => {
+    try {
+        const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || process.env.RAZORPAY_SECRET;
+
+        // Verify webhook signature
+        const signature = req.headers['x-razorpay-signature'];
+        const body = JSON.stringify(req.body);
+
+        const expectedSignature = crypto
+            .createHmac('sha256', webhookSecret)
+            .update(body)
+            .digest('hex');
+
+        if (signature !== expectedSignature) {
+            console.error('❌ Webhook signature mismatch');
+            return res.status(400).json({ success: false, message: 'Invalid signature' });
+        }
+
+        const event = req.body.event;
+        const payload = req.body.payload;
+
+        console.log('📩 Webhook received:', event);
+
+        // Handle payment.captured event
+        if (event === 'payment.captured') {
+            const paymentEntity = payload.payment.entity;
+            const orderId = paymentEntity.order_id;
+            const paymentId = paymentEntity.id;
+
+            console.log('💰 Payment captured for order:', orderId);
+
+            // Check if already processed
+            const existingPayment = await Payment.findOne({ orderId });
+            if (existingPayment) {
+                console.log('⚠️ Already processed, skipping');
+                return res.status(200).json({ success: true, message: 'Already processed' });
+            }
+
+            // Get pending registration data
+            const pendingReg = await PendingRegistration.findOne({ orderId });
+            if (!pendingReg) {
+                console.error('❌ No pending registration found for order:', orderId);
+                return res.status(404).json({ success: false, message: 'Pending registration not found' });
+            }
+
+            // Process registration using saved data
+            await processRegistration(
+                orderId,
+                paymentId,
+                '', // No signature from webhook
+                pendingReg.formData,
+                pendingReg.aadharPhotoBase64
+            );
+
+            // Mark as completed
+            pendingReg.status = 'completed';
+            await pendingReg.save();
+
+            console.log('✅ Webhook processing complete for order:', orderId);
+        }
+
+        // Always return 200 to Razorpay (acknowledge receipt)
+        res.status(200).json({ success: true, message: 'Webhook processed' });
+
+    } catch (error) {
+        console.error('Webhook error:', error);
+        // Still return 200 to prevent Razorpay from retrying
+        res.status(200).json({ success: false, message: 'Webhook processing failed' });
     }
 };
 
@@ -224,4 +355,4 @@ const getPaymentStatus = async (req, res) => {
     }
 };
 
-module.exports = { createOrder, verifyPayment, getPaymentStatus };
+module.exports = { createOrder, verifyPayment, handleWebhook, getPaymentStatus };

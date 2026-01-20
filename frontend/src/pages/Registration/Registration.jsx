@@ -11,6 +11,7 @@ import {
   verifyPaymentAndRegister,
   loadRazorpayScript,
   warmupBackend,
+  fileToBase64,
 } from "../../services/api";
 import "./Registration.css";
 
@@ -18,6 +19,7 @@ export default function Registration() {
   const navigate = useNavigate();
   const [selectedSport, setSelectedSport] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false); // Processing after Razorpay success
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -48,6 +50,19 @@ export default function Registration() {
       }
     });
   }, []);
+
+  // Warn user before leaving page during payment processing
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isProcessing) {
+        e.preventDefault();
+        e.returnValue = "Payment is being processed. Please wait!";
+        return e.returnValue;
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isProcessing]);
 
   // Reset form when sport changes
   useEffect(() => {
@@ -140,7 +155,17 @@ export default function Registration() {
     setIsLoading(true);
 
     try {
-      // Create order (also checks if Aadhar already registered)
+      // Convert photo to base64 for webhook backup
+      let aadharPhotoBase64 = '';
+      if (formData.aadharPhoto) {
+        try {
+          aadharPhotoBase64 = await fileToBase64(formData.aadharPhoto);
+        } catch (err) {
+          console.error('Failed to convert photo to base64:', err);
+        }
+      }
+
+      // Create order with ALL form data (saved for webhook to use)
       const orderResult = await createPaymentOrder({
         amount: selectedSport.fee,
         name: formData.name,
@@ -149,6 +174,15 @@ export default function Registration() {
         aadharNo: formData.aadharNo,
         sportId: selectedSport.id,
         sportName: selectedSport.name,
+        // Additional data for webhook
+        universityName: formData.universityName,
+        branch: formData.branch,
+        teamName: formData.teamName,
+        sportCategory: selectedSport.category,
+        sportCategoryId: selectedSport.categoryId,
+        sportType: selectedSport.type,
+        teamSize: selectedSport.teamSize,
+        aadharPhotoBase64,
       });
 
       if (!orderResult.success) {
@@ -172,6 +206,9 @@ export default function Registration() {
         },
         theme: { color: "#ffb24a" },
         handler: async function (response) {
+          // Show processing overlay - prevents refresh
+          setIsProcessing(true);
+
           // Verify payment and register
           const verifyResult = await verifyPaymentAndRegister(
             response,
@@ -188,6 +225,7 @@ export default function Registration() {
             formData.aadharPhoto
           );
 
+          setIsProcessing(false);
           setIsLoading(false);
 
           if (verifyResult.success) {
@@ -266,6 +304,53 @@ export default function Registration() {
           },
         }}
       />
+
+      {/* Processing Overlay - Shows during payment verification */}
+      {isProcessing && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 99999,
+        }}>
+          <div style={{
+            width: '60px',
+            height: '60px',
+            border: '4px solid rgba(255, 178, 74, 0.3)',
+            borderTop: '4px solid #ffb24a',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+          }} />
+          <h2 style={{
+            color: '#ffb24a',
+            marginTop: '24px',
+            fontSize: '1.5rem',
+            fontWeight: '700',
+          }}>Completing Registration...</h2>
+          <p style={{
+            color: 'rgba(255, 255, 255, 0.7)',
+            marginTop: '12px',
+            fontSize: '1rem',
+            textAlign: 'center',
+            maxWidth: '300px',
+          }}>
+            ⚠️ Please do NOT refresh or close this page
+          </p>
+          <style>{`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}</style>
+        </div>
+      )}
 
       <header className="regHeader">
         <h1 className="regTitle">REGISTRATION </h1>

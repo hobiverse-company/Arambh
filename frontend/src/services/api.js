@@ -26,7 +26,7 @@ api.interceptors.response.use(
     }
 );
 
-// Create Razorpay order
+// Create Razorpay order (now saves form data for webhook)
 export const createPaymentOrder = async (orderData) => {
     try {
         const response = await api.post('/payment/create-order', orderData);
@@ -41,6 +41,16 @@ export const createPaymentOrder = async (orderData) => {
             error: error.message || 'Failed to create payment order',
         };
     }
+};
+
+// Convert file to base64
+export const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
 };
 
 // Verify payment and complete registration
