@@ -26,6 +26,7 @@ import nilesh from "../assets/member-image/nilesh.jpeg"
 import arshad from "../assets/member-image/arshad.jpeg"
 import utkarsh from "../assets/member-image/utkarsh.jpeg"
 import rishabh from "../assets/member-image/rishabh.jpeg"
+import akshat from "../assets/member-image/akshat.jpeg"
 
 
 export const memberImage = {
@@ -57,4 +58,5 @@ export const memberImage = {
     ,arshad
     ,utkarsh
     ,rishabh
+    ,akshat
 }
