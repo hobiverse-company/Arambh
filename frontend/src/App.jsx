@@ -60,15 +60,14 @@ function App() {
         </p>
       </div>
 
-      <ScrollToHash />
+      {/* <ScrollToHash />
       <Navbar links={navLinks} />
-      <Suspense fallback={<SportsLoader fullScreen label="Loading page…" />}>
-        <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/register" />
-          {/* <Route path="/register" element={<Registration />} /> */}
+      <Suspense fallback={<SportsLoader fullScreen label="Loading page…" />}> */}
+      <Routes>
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/register" element={<Registration />} />
 
-          {/* <Route path="/sports" element={<AllSports />} />
+        {/* <Route path="/sports" element={<AllSports />} />
           <Route path="/sport/:sportId" element={<SportDetail />} />
           <Route path="/fees-awards" element={<FeesAwards />} />
           <Route path="/committee" element={<Committee />} />
@@ -77,9 +76,9 @@ function App() {
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/__crash" element={<CrashTest />} />
           <Route path="*" element={<NotFound />} /> */}
-        </Routes>
-      </Suspense>
-      <Footer />
+      </Routes>
+      {/* </Suspense>
+      <Footer /> */}
     </main>
   );
 }
