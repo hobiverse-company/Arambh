@@ -170,6 +170,14 @@ export default function Home() {
             <span>{homeHero.statusPrefix}</span>
             <span className="heroLiveDot" aria-hidden="true" />
           </p>
+
+            <div className="heroCtaRow">
+              <div className="ctaButton" style={{ cursor: "default", pointerEvents: "none" }}>
+                <span className="ctaText" style={{ fontSize: 20, textTransform: "none" }}>
+                  Open for all colleges & university students
+                </span>
+              </div>
+            </div>
         </div>
       </section>
 
