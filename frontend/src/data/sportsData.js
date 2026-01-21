@@ -74,6 +74,14 @@ export const sportsData = [
         fee: 100,
         description: 'Cycling Race - Individual participation',
       },
+      {
+        id: 'weightlifting',
+        name: 'Weightlifting',
+        type: SPORT_TYPES.INDIVIDUAL,
+        teamSize: 1,
+        fee: 100,
+        description: 'Weightlifting - Individual participation',
+      },
     ],
   },
 

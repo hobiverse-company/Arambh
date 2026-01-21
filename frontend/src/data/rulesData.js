@@ -163,6 +163,79 @@ export const sportRules = {
     registrationFee: 100,
   },
 
+  weightlifting: {
+    name: "Weightlifting",
+    category: "Athletics",
+    overview: "A strength sport where athletes compete to lift the maximum weight in prescribed lifting techniques, demonstrating power, technique, and mental fortitude.",
+    eligibility: {
+      gender: "Separate events for Men and Women",
+      participants: "Individual participation only",
+    },
+    rules: [
+      {
+        title: "Competition Format",
+        points: [
+          "Each athlete gets 3 attempts to lift the maximum weight",
+          "Athletes must declare their starting weight before the competition begins",
+          "Weight can only be increased between attempts, not decreased",
+          "Minimum increment between attempts is 2.5 kg",
+          "Best successful lift counts as the final result",
+        ]
+      },
+      {
+        title: "Lifting Technique",
+        points: [
+          "Athlete must lift the barbell from the ground to overhead in one continuous motion",
+          "The lift must be completed with arms fully extended and locked",
+          "Athlete must hold the weight overhead in a stable position",
+          "Both feet must be in line and parallel before lowering the weight",
+          "The barbell must be lowered in a controlled manner",
+        ]
+      },
+      {
+        title: "Attempt Rules",
+        points: [
+          "Athletes have 60 seconds from being called to complete their lift",
+          "The clock starts when the athlete's name is announced",
+          "Athlete must wait for the referee's signal before lowering the weight",
+          "Three referees judge each lift - majority decision determines success",
+          "White light indicates a successful lift, red light indicates a failed attempt",
+        ]
+      },
+      {
+        title: "Equipment and Attire",
+        points: [
+          "Athletes must wear proper athletic attire (singlet or fitted clothing)",
+          "Weightlifting shoes or flat-soled shoes are mandatory",
+          "Weightlifting belt is optional but recommended",
+          "Chalk may be used for better grip",
+          "No gloves or supportive wraps allowed on hands",
+        ]
+      },
+      {
+        title: "Safety Requirements",
+        points: [
+          "Spotters will be present during all lifts",
+          "Athletes must warm up properly before attempting maximum weights",
+          "Medical clearance may be required for participation",
+          "Athletes must follow all safety instructions from officials",
+          "Dropping weights is allowed only after referee's signal",
+        ]
+      }
+    ],
+    penalties: [
+      "Incomplete lift (arms not locked): Failed attempt",
+      "Losing balance or stepping outside platform: Failed attempt",
+      "Lowering weight before referee's signal: Failed attempt",
+      "Exceeding 60-second time limit: Failed attempt",
+      "Improper technique or form: Failed attempt",
+      "Unsportsmanlike conduct: Warning or disqualification",
+    ],
+    format: "Single elimination based on best lift. Heats may be conducted if participants exceed 12.",
+    support: "Ayush Gupta (7355963738)",
+    registrationFee: 100,
+  },
+
   athletics_200m: {
     name: "200 Meter Race",
     category: "Athletics",
