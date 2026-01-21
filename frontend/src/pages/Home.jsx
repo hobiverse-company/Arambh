@@ -174,7 +174,7 @@ export default function Home() {
             <div className="heroCtaRow">
               <div className="ctaButton" style={{ cursor: "default", pointerEvents: "none" }}>
                 <span className="ctaText" style={{ fontSize: 20, textTransform: "none" }}>
-                  Open for all colleges & university students
+                  Website is under mentainance. Some features may not work as expected.It will be back to normal soon.
                 </span>
               </div>
             </div>
