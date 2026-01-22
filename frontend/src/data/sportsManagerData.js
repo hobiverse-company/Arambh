@@ -1,4 +1,3 @@
-import devansh from "../assets/member-image/devansh.jpg"
 import harshGupta from "../assets/member-image/harsh-gupta.jpg"
 import ayushman from "../assets/member-image/ayushman.jpg"
 import ayushGupta from "../assets/member-image/ayush-gupta.jpeg"

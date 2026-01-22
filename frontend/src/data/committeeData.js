@@ -95,12 +95,12 @@ export const committeeData = {
         department: "CSE AI, 3rd Year",
         image: memberImage.anup,
       },
-      {
-        name: "Harshit Kesarwani",
-        role: "PR & Outreach Head",
-        department: "CSE, 3rd Year",
-        image: memberImage.harshit,
-      },
+      // {
+      //   name: "Harshit Kesarwani",
+      //   role: "PR & Outreach Head",
+      //   department: "CSE, 3rd Year",
+      //   image: memberImage.harshit,
+      // },
       {
         name: "Sagar Singh Patel",
         role: "Social Media Lead",
@@ -187,14 +187,14 @@ export const committeeData = {
     members: [
       {
         name: "Ayushman Kumar",
-        role: "Head",
+        role: "Event Coordinator Head",
         department: "ECE, 3rd Year",
         image: memberImage.ayushman,
       },
 
       {
         name: "Devansh Dwivedi",
-        role: "Team Member",
+        role: "Event Coordinator Co-Head",
         department: "BCA, 2nd Year",
         image: memberImage.devansh,
       },
