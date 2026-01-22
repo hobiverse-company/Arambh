@@ -11,6 +11,8 @@ import SportsManagerCard from "../components/SportsManagerCard.jsx";
 import { useMemo } from "react";
 import LazySection from "../components/LazySection";
 import SportsLoader from "../components/SportsLoader";
+import { sponsorsData } from "../data/sponsorsData";
+
 
 // Generate fire bubbles data
 const generateFireBubbles = (count) => {
@@ -180,22 +182,40 @@ export default function Home() {
         manager={sportsManagers.chess}
         sportName="Chess"
       /> */}
-
-      <LazySection
-        importer={() => import("../sections/ChiefGuest")}
-        componentProps={{ members }}
-        minHeight={280}
-        rootMargin="600px 0px"
-        fallback={<SportsLoader label="Warming up…" />}
-      />
-
-      <LazySection
-        importer={() => import("../sections/AagaazThinking")}
-        minHeight={220}
-        rootMargin="700px 0px"
-        fallback={<SportsLoader label="Setting the stage…" />}
-      />
       {/* Live Scores Ticker */}
+      <section className="sponsorsSection" aria-label="Sponsors">
+        <h2 className="sponsorsTitle">Our Sponsors</h2>
+        <div className="sponsorsGridWrapper">
+          <div className="sponsorsGrid">
+            {/* Set 1 */}
+            <div className="sponsorsSet">
+              {sponsorsData.map((sponsor) => (
+                <div key={sponsor.id} className="sponsorCard">
+                  <img
+                    src={sponsor.image}
+                    alt={sponsor.name}
+                    className="sponsorImage"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+            {/* Set 2 (Duplicate for mobile loop) */}
+            <div className="sponsorsSet mobile-duplicate-set">
+              {sponsorsData.map((sponsor) => (
+                <div key={`${sponsor.id}-dup`} className="sponsorCard">
+                  <img
+                    src={sponsor.image}
+                    alt={sponsor.name}
+                    className="sponsorImage"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="liveScoresTicker" aria-label="Live Scores">
         <div className="liveScoresHeader">
           <span className="liveScoresLiveDot" aria-hidden="true" />
@@ -222,6 +242,21 @@ export default function Home() {
           Live scores will be available when events are live
         </p>
       </section>
+      <LazySection
+        importer={() => import("../sections/ChiefGuest")}
+        componentProps={{ members }}
+        minHeight={280}
+        rootMargin="600px 0px"
+        fallback={<SportsLoader label="Warming up…" />}
+      />
+
+      <LazySection
+        importer={() => import("../sections/AagaazThinking")}
+        minHeight={220}
+        rootMargin="700px 0px"
+        fallback={<SportsLoader label="Setting the stage…" />}
+      />
+
       <LazySection
         importer={() => import("../sections/SportsSection")}
         minHeight={320}
