@@ -1277,7 +1277,7 @@ export const sportRules = {
       "Late arrival (5 mins): Forfeit of first match",
     ],
     format: "Single Elimination Knockout",
-    support: "Mohammad Anas ( 7275784756 )",
+    support: "Farhaan Ahmad ( 6307596167 )",
     registrationFee: 100,
   },
   // CRICKET

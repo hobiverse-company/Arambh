@@ -174,6 +174,9 @@ export default function Home() {
             <span>{homeHero.statusPrefix}</span>
             <span className="heroLiveDot" aria-hidden="true" />
           </p>
+          <div class="announcement">
+            🏀 Basketball is on the cards! Stay tuned for the final announcement.
+          </div>
         </div>
       </section>
 
