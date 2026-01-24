@@ -125,6 +125,14 @@ export const sportsData = [
         description: '6 Players + 3 Substitutes',
       },
       {
+        id: 'basketball',
+        name: 'Basketball',
+        type: SPORT_TYPES.TEAM,
+        teamSize: 12,
+        fee: 1000,
+        description: '5 Players + 7 Substitutes (12 total)',
+      },
+      {
         id: 'football',
         name: 'Football',
         type: SPORT_TYPES.TEAM,
@@ -344,6 +352,13 @@ export const sportsCards = [
     cta: "VIEW RULES & REGISTER",
     iconSrc: badmintonPng,
     iconAlt: "Badminton",
+  },
+  {
+    key: "basketball",
+    title: "BASKETBALL",
+    meta: "Open Category",
+    cta: "VIEW RULES & REGISTER",
+    iconAlt: "Basketball",
   },
   {
     key: "athletics",
