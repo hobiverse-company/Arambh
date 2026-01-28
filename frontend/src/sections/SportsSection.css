@@ -48,17 +48,7 @@
   grid-column: span 2;
 }
 
-/* Desktop-only: when there are 5 items, center the last row (2 tiles).
-   On smaller layouts (2-col/1-col) these explicit columns can break the grid. */
-@media (min-width: 981px) {
-  .sportsGrid > :nth-last-child(2) {
-    grid-column: 2 / span 2;
-  }
-
-  .sportsGrid > :last-child {
-    grid-column: 4 / span 2;
-  }
-}
+/* No special centering needed - with 6 items, they naturally fill 2 rows of 3 */
 
 .sportsMoreCard .sportsCardInner {
   display: flex;
@@ -73,11 +63,6 @@
   }
 
   .sportsGrid > * {
-    grid-column: auto;
-  }
-
-  .sportsGrid > :nth-last-child(2),
-  .sportsGrid > :last-child {
     grid-column: auto;
   }
 }

@@ -1,5 +1,5 @@
 import "./FeesAwards.css";
-import { feesAndAwards } from "../../data/feesData";
+import { sportsData } from "../../data/sportsData";
 
 export default function FeesAwards() {
   const formatAmount = (amount) => {
@@ -7,12 +7,36 @@ export default function FeesAwards() {
     return `₹${amount.toLocaleString("en-IN")}`;
   };
 
-  // Group fees by sport for better table display (like the image)
+  //data from sportsData (Data file)
+  const feesAndAwards = [];
+  sportsData.forEach((category) => {
+    category.sports.forEach((sport) => {
+      if (sport.subTypes) {
+        sport.subTypes.forEach((sub) => {
+          feesAndAwards.push({
+            sport: `${sport.name} (${sub.name})`,
+            category: category.name,
+            entryFee: sub.fee,
+            winner: "Will be Announced Soon",
+          });
+        });
+      } else {
+        feesAndAwards.push({
+          sport: sport.name,
+          category: category.name,
+          entryFee: sport.fee,
+          winner: "Will be Announced Soon",
+        });
+      }
+    });
+  });
+
+  // Group fees by category for better table display
   const groupedFees = feesAndAwards.reduce((acc, item) => {
-    if (!acc[item.sport]) {
-      acc[item.sport] = [];
+    if (!acc[item.category]) {
+      acc[item.category] = [];
     }
-    acc[item.sport].push(item);
+    acc[item.category].push(item);
     return acc;
   }, {});
 
@@ -33,29 +57,30 @@ export default function FeesAwards() {
             <table className="fees-table">
               <thead>
                 <tr>
-                  <th>SPORTS</th>
                   <th>CATEGORY</th>
+                  <th>SPORTS</th>
                   <th>ENTRY FEES</th>
                   <th>WINNER</th>
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(groupedFees).map(([sport, categories]) =>
-                  categories.map((item, idx) => (
-                    <tr key={`${sport}-${item.category}-${idx}`}>
+                {Object.entries(groupedFees).map(([category, sports]) =>
+                  sports.map((item, idx) => (
+                    <tr key={`${category}-${item.sport}-${idx}`}>
                       {idx === 0 ? (
-                        <td 
-                          className="sport-name" 
-                          rowSpan={categories.length}
-                        >
-                          {sport.toUpperCase()}
+                        <td className="category-name" rowSpan={sports.length}>
+                          {category.toUpperCase()}
                         </td>
                       ) : null}
-                      <td className="category-name">{item.category.toUpperCase()}</td>
-                      <td className="entry-fee">{formatAmount(item.entryFee)}</td>
-                      <td className="winner-prize">{formatAmount(item.winner)}</td>
+                      <td className="sport-name">{item.sport.toUpperCase()}</td>
+                      <td className="entry-fee">
+                        {formatAmount(item.entryFee)}
+                      </td>
+                      <td className="winner-prize">
+                        {formatAmount(item.winner)}
+                      </td>
                     </tr>
-                  ))
+                  )),
                 )}
               </tbody>
             </table>
@@ -63,9 +88,7 @@ export default function FeesAwards() {
 
           <div className="fees-note">
             <span className="note-icon">ℹ️</span>
-            <p>
-              Prize money will be announced soon. Stay tuned!
-            </p>
+            <p>Prize money will be announced soon. Stay tuned!</p>
           </div>
         </div>
       </section>

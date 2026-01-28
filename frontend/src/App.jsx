@@ -49,6 +49,17 @@ function ScrollToHash() {
 
 function App() {
   return (
+    // <main className="min-h-[100dvh] px-4 py-10 flex items-center justify-center">
+    //   <div className="w-full max-w-3xl text-center">
+    //     <h1 className="text-white/95 font-black tracking-wide drop-shadow-[0_14px_30px_rgba(0,0,0,0.35)] text-3xl sm:text-5xl">
+    //       We’re under Maintenance
+    //     </h1>
+
+    //     <p className="mt-4 text-white/80 text-sm sm:text-base leading-relaxed">
+    //       We’ll be back soon. Please visit again after some time.
+    //     </p>
+    //   </div>
+    // </main>
     <>
       <ScrollToHash />
       <Navbar links={navLinks} />
@@ -56,6 +67,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Registration />} />
+
           <Route path="/sports" element={<AllSports />} />
           <Route path="/sport/:sportId" element={<SportDetail />} />
           <Route path="/fees-awards" element={<FeesAwards />} />

@@ -87,7 +87,7 @@ export const committeeData = {
         name: "Om Gupta",
         role: "Event & Management co-head",
         department: "EE, 3rd Year",
-        image: memberImage.omGupta,
+        image: memberImage.om,
       },
       {
         name: "Anup Kumar",
@@ -95,12 +95,12 @@ export const committeeData = {
         department: "CSE AI, 3rd Year",
         image: memberImage.anup,
       },
-      {
-        name: "Harshit Kesarwani",
-        role: "PR & Outreach Head",
-        department: "CSE, 3rd Year",
-        image: memberImage.harshit,
-      },
+      // {
+      //   name: "Harshit Kesarwani",
+      //   role: "PR & Outreach Head",
+      //   department: "CSE, 3rd Year",
+      //   image: memberImage.harshit,
+      // },
       {
         name: "Sagar Singh Patel",
         role: "Social Media Lead",
@@ -111,7 +111,7 @@ export const committeeData = {
         name: "Rishabh Panday",
         role: "social media co-head",
         department: "ME, 3rd Year",
-        image: null,
+        image: memberImage.rishabh,
       },
       // {
       //   name: "Aman Chaurasiya",
@@ -150,10 +150,10 @@ export const committeeData = {
         image: memberImage.yatharth,
       },
       {
-        name: "Saurabh Verma",
-        role: "Event Coordinator Co-Head",
-        department: "B.Pharma, 4th Year",
-        image: memberImage.saurabh,
+        name: "Shivraj Maurya",
+        role: "Event management Head",
+        department: "B.Tech CSE, 4th Year",
+        image: memberImage.shivraj,
       },
       {
         name: "Mohammad Arshad",
@@ -173,6 +173,12 @@ export const committeeData = {
         department: "EE, 3rd Year",
         image: memberImage.manvendra,
       },
+      {
+        name: "Akshat Shukla",
+        role: "Event Coordinator",
+        department: "ECE, 3rd Year",
+        image: memberImage.akshat,
+      },
     ],
   },
 
@@ -181,14 +187,14 @@ export const committeeData = {
     members: [
       {
         name: "Ayushman Kumar",
-        role: "Head",
+        role: "Event Coordinator Head",
         department: "ECE, 3rd Year",
         image: memberImage.ayushman,
       },
 
       {
         name: "Devansh Dwivedi",
-        role: "Team Member",
+        role: "Event Coordinator Co-Head",
         department: "BCA, 2nd Year",
         image: memberImage.devansh,
       },

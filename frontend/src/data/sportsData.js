@@ -74,6 +74,14 @@ export const sportsData = [
         fee: 100,
         description: 'Cycling Race - Individual participation',
       },
+      {
+        id: 'weightlifting',
+        name: 'Weightlifting',
+        type: SPORT_TYPES.INDIVIDUAL,
+        teamSize: 1,
+        fee: 100,
+        description: 'Weightlifting - Individual participation',
+      },
     ],
   },
 
@@ -116,6 +124,14 @@ export const sportsData = [
         fee: 900,
         description: '6 Players + 3 Substitutes',
       },
+      // {
+      //   id: 'basketball',
+      //   name: 'Basketball',
+      //   type: SPORT_TYPES.TEAM,
+      //   teamSize: 12,
+      //   fee: 1000,
+      //   description: '5 Players + 7 Substitutes (12 total)',
+      // },
       {
         id: 'football',
         name: 'Football',
@@ -337,6 +353,13 @@ export const sportsCards = [
     iconSrc: badmintonPng,
     iconAlt: "Badminton",
   },
+  // {
+  //   key: "basketball",
+  //   title: "BASKETBALL",
+  //   meta: "Open Category",
+  //   cta: "VIEW RULES & REGISTER",
+  //   iconAlt: "Basketball",
+  // },
   {
     key: "athletics",
     title: "ATHLETICS",
