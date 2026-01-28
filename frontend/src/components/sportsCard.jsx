@@ -12,7 +12,6 @@ export default function SportsCard({
   iconAlt,
   onCtaClick,
 }) {
-  const buttonText = title === "Cricket" ? "Registration closed" : cta;
   return (
     <section className="sportsCard" aria-label={title}>
       <div className="sportsCardInner">
@@ -33,7 +32,7 @@ export default function SportsCard({
 
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Button className="sportsCardCta" onClick={onCtaClick}>
-            {buttonText}
+            {cta}
           </Button>
         </div>
       </div>
