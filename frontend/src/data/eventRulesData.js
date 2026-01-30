@@ -47,6 +47,7 @@ export const eventRules = [
     rules: [
       "Matches will be conducted according to the standard rules of the respective sport, unless otherwise specified.",
       "The organizing committee reserves the right to modify match formats, durations, or rules due to unforeseen circumstances.",
+      "The organizing committee reserves the right to modify match formats, Fixtures and Schedules due to unforeseen circumstances.",
       "Proper sports attire is mandatory for all participants.",
     ],
   },

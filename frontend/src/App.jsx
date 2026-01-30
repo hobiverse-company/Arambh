@@ -5,7 +5,8 @@ import navLinks from "./data/navData";
 import SportsLoader from "./components/SportsLoader";
 
 const Home = lazy(() => import("./pages/Home"));
-const Registration = lazy(() => import("./pages/Registration/Registration"));
+// const Registration = lazy(() => import("./pages/Registration/Registration"));
+const CloseRegistration = lazy(() => import("./pages/Registration/CloseRegistration"));
 const SportDetail = lazy(() => import("./pages/SportDetail/SportDetail"));
 const AllSports = lazy(() => import("./pages/AllSports/AllSports"));
 const FeesAwards = lazy(() => import("./pages/FeesAwards/FeesAwards"));
@@ -66,7 +67,7 @@ function App() {
       <Suspense fallback={<SportsLoader fullScreen label="Loading page…" />}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Registration />} />
+          <Route path="/register" element={<CloseRegistration />} />
 
           <Route path="/sports" element={<AllSports />} />
           <Route path="/sport/:sportId" element={<SportDetail />} />
