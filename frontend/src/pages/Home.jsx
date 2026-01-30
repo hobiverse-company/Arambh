@@ -10,7 +10,6 @@ import SportsLoader from "../components/SportsLoader";
 import { sponsorsData } from "../data/sponsorsData";
 import NewsAnnouncements from "../sections/NewsAnnouncements";
 import FireBackground from "../components/FireBackground";
-import Cricket from "./DoneSports/Cricket";
 import Result from "./DoneSports/Result";
 
 // Static members data (keep outside component)
