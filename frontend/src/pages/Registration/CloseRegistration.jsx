@@ -117,10 +117,11 @@ const CloseRegistration = () => {
         <div className="closeRegHelp">
           <div className="closeRegHelpTitle">Need Help? Contact Us:</div>
           <div className="closeRegHelpRow">
-            <span className="closeRegHelpName">Ayush Singh</span>
-            <a className="closeRegHelpLink" href="tel:7081832092">
+            <span className="closeRegHelpName">No more Direct Support as you guys make to many phone calls</span>
+             😅📵
+            {/* <a className="closeRegHelpLink" href="tel:7081832092">
               7081832092
-            </a>
+            </a> */}
           </div>
           {/* <div className="closeRegHelpRow">
             <span className="closeRegHelpName">Aman Singh Nishad</span>
