@@ -2,46 +2,41 @@ import React, { useState, useEffect } from "react";
 import { getMatches } from "../../services/api";
 import "./Schedule.css";
 
-// Sport icon mapping
-const getSportIcon = (sportName) => {
-  const iconMap = {
-    // Cricket
-    Cricket: "🏏",
-    // Football/Soccer
-    Football: "⚽",
-    // Badminton
-    Badminton: "🏸",
-    "Badminton Singles": "🏸",
-    "Badminton Doubles": "🏸",
-    "Badminton Mixed Doubles": "🏸",
-    // Table Tennis
-    "Table Tennis": "🏓",
-    "Table Tennis Singles": "🏓",
-    "Table Tennis Doubles": "🏓",
-    "Table Tennis Mixed Doubles": "🏓",
-    // Athletics
-    "100 Meter Race": "🏃",
-    "200 Meter Race": "🏃",
-    "400 Meter Race": "🏃",
-    "4x100 Meter Relay": "🏃",
-    "Long Jump": "🏃",
-    Cycling: "🚴",
-    Weightlifting: "🏋️",
-    // Team Sports
-    "Tug of War": "🤼",
-    "Kho-Kho": "🤼",
-    Volleyball: "🏐",
-    Basketball: "🏀",
-    // Indoor Sports
-    Chess: "♟️",
-    Carrom: "🎯",
-    // Esports
-    BGMI: "🎮",
-    "Free Fire": "🎮",
-    "Clash Royale": "🎮",
-  };
+// Sport icons mapping
+const SPORT_ICONS = {
+  // Athletics
+  athletics_100m: "🏃",
+  athletics_200m: "🏃",
+  athletics_400m: "🏃",
+  athletics_4x100m_relay: "🏃",
+  athletics_longjump: "🏃",
+  cycling: "🚴",
+  weightlifting: "🏋️",
 
-  return iconMap[sportName] || "🏆"; // Default trophy icon
+  // Team Sports
+  cricket: "🏏",
+  tug_of_war: "🤼",
+  kho_kho: "🏃",
+  volleyball: "🏐",
+  basketball: "🏀",
+  football: "⚽",
+
+  // Indoor Sports
+  chess: "♟️",
+  carrom: "🎯",
+  carrom_singles: "🎯",
+
+  // Badminton
+  badminton_singles: "🏸",
+  badminton_doubles: "🏸",
+  badminton_mixed_doubles: "🏸",
+
+  // Table Tennis
+  table_tennis_singles: "🏓",
+  table_tennis_doubles: "🏓",
+
+  // Default
+  default: "🏆",
 };
 
 const Schedule = () => {
@@ -50,10 +45,26 @@ const Schedule = () => {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("ongoing");
   const [selectedSport, setSelectedSport] = useState("all");
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
   useEffect(() => {
     fetchMatches();
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        showFilterDropdown &&
+        !event.target.closest(".scheduleFilterDropdown")
+      ) {
+        setShowFilterDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showFilterDropdown]);
 
   const fetchMatches = async () => {
     try {
@@ -71,37 +82,34 @@ const Schedule = () => {
     }
   };
 
-  const handleSportFilter = (sportId) => {
-    setSelectedSport(sportId);
-  };
+  const ongoingMatches = matches.filter((match) => match.status === "ongoing");
+  const upcomingMatches = matches.filter(
+    (match) => match.status === "scheduled",
+  );
+  const completedMatches = matches.filter(
+    (match) => match.status === "finished",
+  );
 
-  // Get unique sports from matches
-  const availableSports = Array.from(
+  // Get unique sports from all matches
+  const uniqueSports = Array.from(
     new Set(matches.map((match) => match.sportId)),
-  ).map((sportId) => {
-    const match = matches.find((m) => m.sportId === sportId);
-    return {
-      id: sportId,
-      name: match.sportName,
-      icon: getSportIcon(match.sportName),
-    };
-  });
+  )
+    .map((sportId) => {
+      const match = matches.find((m) => m.sportId === sportId);
+      return {
+        id: sportId,
+        name: match.sportName,
+        category: match.sportCategory,
+        icon: SPORT_ICONS[sportId] || SPORT_ICONS.default,
+      };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   // Filter matches by selected sport
   const filterMatchesBySport = (matchList) => {
     if (selectedSport === "all") return matchList;
     return matchList.filter((match) => match.sportId === selectedSport);
   };
-
-  const ongoingMatches = filterMatchesBySport(
-    matches.filter((match) => match.status === "ongoing"),
-  );
-  const upcomingMatches = filterMatchesBySport(
-    matches.filter((match) => match.status === "scheduled"),
-  );
-  const completedMatches = filterMatchesBySport(
-    matches.filter((match) => match.status === "finished"),
-  );
 
   const renderMatchesTable = (matchList, title) => (
     <div className="scheduleTableWrap">
@@ -117,10 +125,7 @@ const Schedule = () => {
         <tbody>
           {matchList.length === 0 ? (
             <tr>
-              <td
-                colSpan="4"
-                style={{ textAlign: "center", color: "rgba(255,255,255,0.5)" }}
-              >
+              <td colSpan="4" className="scheduleEmptyState">
                 No {title.toLowerCase()} matches
               </td>
             </tr>
@@ -130,17 +135,12 @@ const Schedule = () => {
                 <td>
                   <div className="scheduleSport">
                     <div className="scheduleSportIcon">
-                      {getSportIcon(match.sportName)}
+                      {SPORT_ICONS[match.sportId] || SPORT_ICONS.default}
                     </div>
                     <div>
-                      <div style={{ fontWeight: "600" }}>{match.sportName}</div>
+                      <div className="scheduleSportName">{match.sportName}</div>
                       {match.sportCategory && (
-                        <div
-                          style={{
-                            fontSize: "0.8rem",
-                            color: "rgba(255,255,255,0.6)",
-                          }}
-                        >
+                        <div className="scheduleSportCategory">
                           {match.sportCategory}
                         </div>
                       )}
@@ -148,35 +148,18 @@ const Schedule = () => {
                   </div>
                 </td>
                 <td>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.25rem",
-                    }}
-                  >
+                  <div className="scheduleParticipants">
                     {match.participants.map((participant, index) => (
-                      <div key={index} style={{ fontSize: "0.9rem" }}>
-                        {participant.name}
+                      <div key={index} className="scheduleParticipant">
+                        <span>{participant.name}</span>
                         {participant.registrationId && (
-                          <span
-                            style={{
-                              color: "rgba(255,255,255,0.6)",
-                              marginLeft: "0.5rem",
-                            }}
-                          >
+                          <span className="scheduleParticipantId">
                             ({participant.registrationId})
                           </span>
                         )}
                         {match.status === "finished" &&
                           match.winnerName === participant.name && (
-                            <span
-                              style={{
-                                color: "#ffb24a",
-                                fontWeight: "bold",
-                                marginLeft: "0.5rem",
-                              }}
-                            >
+                            <span className="scheduleWinnerBadge">
                               🏆 Winner
                             </span>
                           )}
@@ -186,64 +169,31 @@ const Schedule = () => {
                 </td>
                 <td>
                   <span
-                    style={{
-                      padding: "0.25rem 0.5rem",
-                      borderRadius: "4px",
-                      fontSize: "0.8rem",
-                      fontWeight: "600",
-                      backgroundColor:
-                        match.status === "ongoing"
-                          ? "#ff8e2f"
-                          : match.status === "finished"
-                            ? "#4CAF50"
-                            : "#666",
-                      color: "white",
-                    }}
+                    className={`scheduleStatusBadge scheduleStatusBadge--${match.status}`}
                   >
                     {match.status.toUpperCase()}
                   </span>
                 </td>
                 <td>
                   {match.status === "finished" ? (
-                    <div>
-                      <div
-                        style={{
-                          fontSize: "0.9rem",
-                          fontWeight: "600",
-                          color: "#ffb24a",
-                        }}
-                      >
-                        Winner: {match.winnerName}
+                    <div className="scheduleResult">
+                      <div className="scheduleWinner">
+                        🏆 {match.winnerName}
                       </div>
                       {(match.scoreA || match.scoreB) && (
-                        <div
-                          style={{
-                            fontSize: "0.8rem",
-                            color: "rgba(255,255,255,0.7)",
-                          }}
-                        >
+                        <div className="scheduleScore">
                           Score: {match.scoreA || 0} - {match.scoreB || 0}
                         </div>
                       )}
                     </div>
                   ) : (
-                    <div>
-                      <div
-                        style={{
-                          fontSize: "0.85rem",
-                          color: "rgba(255,255,255,0.7)",
-                        }}
-                      >
+                    <div className="scheduleDateTime">
+                      <div className="scheduleDate">
                         {match.scheduledAt
                           ? new Date(match.scheduledAt).toLocaleDateString()
                           : new Date(match.createdAt).toLocaleDateString()}
                       </div>
-                      <div
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "rgba(255,255,255,0.5)",
-                        }}
-                      >
+                      <div className="scheduleTime">
                         {match.scheduledAt
                           ? new Date(match.scheduledAt).toLocaleTimeString()
                           : new Date(match.createdAt).toLocaleTimeString()}
@@ -263,9 +213,7 @@ const Schedule = () => {
     return (
       <div className="schedulePage">
         <div className="scheduleSection">
-          <div style={{ textAlign: "center", color: "white", padding: "2rem" }}>
-            Loading matches...
-          </div>
+          <div className="scheduleLoading">Loading matches...</div>
         </div>
       </div>
     );
@@ -275,11 +223,7 @@ const Schedule = () => {
     return (
       <div className="schedulePage">
         <div className="scheduleSection">
-          <div
-            style={{ textAlign: "center", color: "#ff6b6b", padding: "2rem" }}
-          >
-            Error: {error}
-          </div>
+          <div className="scheduleError">Error: {error}</div>
         </div>
       </div>
     );
@@ -295,78 +239,86 @@ const Schedule = () => {
           </p>
         </div>
 
-        {/* Sport Filter */}
-        <div className="scheduleFilter">
-          <label
-            htmlFor="sportFilter"
-            style={{
-              color: "rgba(255,255,255,0.8)",
-              marginRight: "0.5rem",
-              fontSize: "0.9rem",
-            }}
-          >
-            Filter by Sport:
-          </label>
-          <select
-            id="sportFilter"
-            value={selectedSport}
-            onChange={(e) => handleSportFilter(e.target.value)}
-            style={{
-              background: "rgba(255, 255, 255, 0.08)",
-              border: "1px solid rgba(255, 255, 255, 0.15)",
-              color: "white",
-              padding: "0.5rem 1rem",
-              borderRadius: "6px",
-              fontSize: "0.9rem",
-              cursor: "pointer",
-              minWidth: "200px",
-            }}
-          >
-            <option
-              value="all"
-              style={{ background: "#24243e", color: "white" }}
-            >
-              All Sports
-            </option>
-            {availableSports.map((sport) => (
-              <option
-                key={sport.id}
-                value={sport.id}
-                style={{ background: "#24243e", color: "white" }}
-              >
-                {sport.icon} {sport.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
         <div className="scheduleTabs">
           <button
             className={`scheduleTab ${activeTab === "ongoing" ? "scheduleTabActive" : ""}`}
             onClick={() => setActiveTab("ongoing")}
           >
-            Ongoing ({ongoingMatches.length})
+            Ongoing ({filterMatchesBySport(ongoingMatches).length})
           </button>
           <button
             className={`scheduleTab ${activeTab === "upcoming" ? "scheduleTabActive" : ""}`}
             onClick={() => setActiveTab("upcoming")}
           >
-            Upcoming ({upcomingMatches.length})
+            Upcoming ({filterMatchesBySport(upcomingMatches).length})
           </button>
           <button
             className={`scheduleTab ${activeTab === "completed" ? "scheduleTabActive" : ""}`}
             onClick={() => setActiveTab("completed")}
           >
-            Completed ({completedMatches.length})
+            Completed ({filterMatchesBySport(completedMatches).length})
           </button>
         </div>
 
+        <div className="scheduleFilters">
+          <div className="scheduleFilterDropdown">
+            <button
+              className="scheduleFilterButton"
+              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+            >
+              <span>
+                Filter by Sport:{" "}
+                {selectedSport === "all"
+                  ? "All Sports"
+                  : `${uniqueSports.find((s) => s.id === selectedSport)?.icon} ${uniqueSports.find((s) => s.id === selectedSport)?.name}`}
+              </span>
+              <span className="scheduleFilterArrow">
+                {showFilterDropdown ? "▲" : "▼"}
+              </span>
+            </button>
+            {showFilterDropdown && (
+              <div className="scheduleFilterOptions">
+                <button
+                  className={`scheduleFilterOption ${selectedSport === "all" ? "scheduleFilterOptionActive" : ""}`}
+                  onClick={() => {
+                    setSelectedSport("all");
+                    setShowFilterDropdown(false);
+                  }}
+                >
+                  All Sports
+                </button>
+                {uniqueSports.map((sport) => (
+                  <button
+                    key={sport.id}
+                    className={`scheduleFilterOption ${selectedSport === sport.id ? "scheduleFilterOptionActive" : ""}`}
+                    onClick={() => {
+                      setSelectedSport(sport.id);
+                      setShowFilterDropdown(false);
+                    }}
+                  >
+                    <span className="scheduleFilterIcon">{sport.icon}</span>
+                    {sport.name}
+                    {sport.category && (
+                      <span className="scheduleFilterCategory">
+                        ({sport.category})
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
         {activeTab === "ongoing" &&
-          renderMatchesTable(ongoingMatches, "Ongoing")}
+          renderMatchesTable(filterMatchesBySport(ongoingMatches), "Ongoing")}
         {activeTab === "upcoming" &&
-          renderMatchesTable(upcomingMatches, "Upcoming")}
+          renderMatchesTable(filterMatchesBySport(upcomingMatches), "Upcoming")}
         {activeTab === "completed" &&
-          renderMatchesTable(completedMatches, "Completed")}
+          renderMatchesTable(
+            filterMatchesBySport(completedMatches),
+            "Completed",
+          )}
       </div>
     </div>
   );
