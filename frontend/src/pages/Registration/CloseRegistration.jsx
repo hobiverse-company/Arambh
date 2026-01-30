@@ -45,7 +45,9 @@ const CloseRegistration = () => {
         <div className="closeRegSection">
           <div className="closeRegSectionHeader">
             <FontAwesomeIcon icon={faCalendarCheck} className="sectionIcon" />
-            <h2 className="closeRegSectionTitle">Registration are permanently closed</h2>
+            <h2 className="closeRegSectionTitle">
+              Registration are permanently closed
+            </h2>
           </div>
           <p className="closeRegSectionDesc">
             The following sports registrations Are Closed!!:
@@ -120,12 +122,12 @@ const CloseRegistration = () => {
               7081832092
             </a>
           </div>
-          <div className="closeRegHelpRow">
+          {/* <div className="closeRegHelpRow">
             <span className="closeRegHelpName">Aman Singh Nishad</span>
             <a className="closeRegHelpLink" href="tel:7340981852">
               7340981852
             </a>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>
