@@ -3,6 +3,7 @@ const Registration = require('../models/Registration');
 
 // GET /api/matches/participants?sportId=...
 // Returns only registrationId + name (minimal for match making)
+// Excludes participants who have lost in completed matches for this sport
 async function getParticipants(req, res) {
   try {
     const { sportId } = req.query;
@@ -10,7 +11,11 @@ async function getParticipants(req, res) {
       return res.status(400).json({ success: false, message: 'sportId is required' });
     }
 
-    const participants = await Registration.find({ sportId })
+    // Get loser registrationIds from completed matches
+    const losers = await Match.find({ sportId, status: 'completed' }).select('loserRegistrationId').lean();
+    const loserIds = losers.map(m => m.loserRegistrationId).filter(id => id !== null);
+
+    const participants = await Registration.find({ sportId, registrationId: { $nin: loserIds } })
       .select('registrationId name')
       .sort({ name: 1 });
 
@@ -57,44 +62,48 @@ async function listMatches(req, res) {
 }
 
 // POST /api/matches
-// body: { sportId, registrationIdA, registrationIdB }
+// body: { sportId, sportName, sportCategory, registrationIdA, nameA, registrationIdB, nameB }
 async function createMatch(req, res) {
   try {
-    const { sportId, registrationIdA, registrationIdB } = req.body;
+    const { sportId, sportName, sportCategory, registrationIdA, nameA, registrationIdB, nameB } = req.body;
 
-    if (!sportId || !registrationIdA || !registrationIdB) {
+    if (!sportId || !sportName) {
       return res.status(400).json({
         success: false,
-        message: 'sportId, registrationIdA and registrationIdB are required',
+        message: 'sportId and sportName are required',
       });
     }
 
-    if (registrationIdA === registrationIdB) {
+    if ((!registrationIdA && !nameA) || (!registrationIdB && !nameB)) {
+      return res.status(400).json({ success: false, message: 'Both participants are required' });
+    }
+
+    if (registrationIdA && registrationIdB && registrationIdA === registrationIdB) {
       return res.status(400).json({ success: false, message: 'Participants must be different' });
     }
 
-    const regs = await Registration.find({
-      sportId,
-      registrationId: { $in: [registrationIdA, registrationIdB] },
-    }).select('registrationId name sportId sportName sportCategory');
-
-    if (regs.length !== 2) {
-      return res.status(400).json({
-        success: false,
-        message: 'Both participants must exist and belong to the same sport',
-      });
+    // Validate registered participants
+    if (registrationIdA) {
+      const regA = await Registration.findOne({ registrationId: registrationIdA, sportId });
+      if (!regA) {
+        return res.status(400).json({ success: false, message: 'Participant A not found for this sport' });
+      }
     }
 
-    const regA = regs.find((r) => r.registrationId === registrationIdA);
-    const regB = regs.find((r) => r.registrationId === registrationIdB);
+    if (registrationIdB) {
+      const regB = await Registration.findOne({ registrationId: registrationIdB, sportId });
+      if (!regB) {
+        return res.status(400).json({ success: false, message: 'Participant B not found for this sport' });
+      }
+    }
 
     const match = await Match.create({
       sportId,
-      sportName: regA.sportName,
-      sportCategory: regA.sportCategory,
+      sportName,
+      sportCategory,
       participants: [
-        { registrationId: regA.registrationId, name: regA.name },
-        { registrationId: regB.registrationId, name: regB.name },
+        { registrationId: registrationIdA || null, name: registrationIdA ? (await Registration.findOne({ registrationId: registrationIdA })).name : nameA },
+        { registrationId: registrationIdB || null, name: registrationIdB ? (await Registration.findOne({ registrationId: registrationIdB })).name : nameB },
       ],
       status: 'scheduled',
     });
@@ -106,11 +115,11 @@ async function createMatch(req, res) {
 }
 
 // PUT /api/matches/:id/result
-// body: { winnerRegistrationId }
+// body: { winnerRegistrationId } or { winnerName }
 async function setMatchResult(req, res) {
   try {
     const { id } = req.params;
-    const { winnerRegistrationId } = req.body;
+    const { winnerRegistrationId, winnerName } = req.body;
 
     const match = await Match.findById(id);
     if (!match) {
@@ -118,18 +127,43 @@ async function setMatchResult(req, res) {
     }
 
     const participantIds = match.participants.map((p) => p.registrationId);
+    const participantNames = match.participants.map((p) => p.name);
 
-    if (!winnerRegistrationId || !participantIds.includes(winnerRegistrationId)) {
+    let winnerId = winnerRegistrationId;
+    if (!winnerId && winnerName) {
+      const participant = match.participants.find((p) => p.name === winnerName);
+      if (participant) {
+        winnerId = participant.registrationId;
+      }
+    }
+
+    if (!winnerId && !winnerName) {
       return res.status(400).json({
         success: false,
-        message: 'winnerRegistrationId must be one of the match participants',
+        message: 'winnerRegistrationId or winnerName must be provided',
       });
     }
 
-    const loserRegistrationId = participantIds.find((pid) => pid !== winnerRegistrationId) || null;
+    if (winnerId && !participantIds.includes(winnerId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Winner must be one of the match participants',
+      });
+    }
 
-    match.winnerRegistrationId = winnerRegistrationId;
-    match.loserRegistrationId = loserRegistrationId;
+    if (winnerName && !participantNames.includes(winnerName)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Winner name must match one of the match participants',
+      });
+    }
+
+    const loserId = participantIds.find((pid) => pid !== winnerId) || null;
+    const loserName = participantNames.find((name) => name !== winnerName) || null;
+
+    match.winnerRegistrationId = winnerId;
+    match.winnerName = winnerName;
+    match.loserRegistrationId = loserId;
     match.status = 'completed';
 
     await match.save();

@@ -24,7 +24,7 @@ function participantLabel(p) {
   return p.name || "-";
 }
 
-export default function Matches() {
+export default function Matches({ user }) {
   const [sportsMeta, setSportsMeta] = useState([]);
 
   const [listSportId, setListSportId] = useState("");
@@ -41,9 +41,19 @@ export default function Matches() {
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState("");
 
+  const [customNameA, setCustomNameA] = useState("");
+  const [customNameB, setCustomNameB] = useState("");
+
   const [resultSavingId, setResultSavingId] = useState(null);
 
-  const sports = useMemo(() => normalizeSports(sportsMeta), [sportsMeta]);
+  const assignedSports = user?.assignedSports || [];
+  const sports = useMemo(
+    () =>
+      normalizeSports(sportsMeta).filter((s) =>
+        assignedSports.includes(s.sportId),
+      ),
+    [sportsMeta, assignedSports],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -133,21 +143,52 @@ export default function Matches() {
       setCreateError("Select a sport first");
       return;
     }
-    if (!registrationIdA || !registrationIdB) {
-      setCreateError("Select both students");
+
+    const participantA =
+      registrationIdA === "others"
+        ? { name: customNameA.trim() }
+        : { registrationId: registrationIdA };
+    const participantB =
+      registrationIdB === "others"
+        ? { name: customNameB.trim() }
+        : { registrationId: registrationIdB };
+
+    if (!participantA.registrationId && !participantA.name) {
+      setCreateError("Select or enter Student A");
       return;
     }
-    if (registrationIdA === registrationIdB) {
+    if (!participantB.registrationId && !participantB.name) {
+      setCreateError("Select or enter Student B");
+      return;
+    }
+    if (
+      participantA.registrationId &&
+      participantB.registrationId &&
+      participantA.registrationId === participantB.registrationId
+    ) {
+      setCreateError("Students must be different");
+      return;
+    }
+    if (
+      participantA.name &&
+      participantB.name &&
+      participantA.name === participantB.name
+    ) {
       setCreateError("Students must be different");
       return;
     }
 
     setCreateLoading(true);
     try {
+      const selectedSport = sports.find((s) => s.sportId === createSportId);
       await createMatch({
         sportId: createSportId,
-        registrationIdA,
-        registrationIdB,
+        sportName: selectedSport?.sportName || "",
+        sportCategory: selectedSport?.sportCategory || "",
+        registrationIdA: participantA.registrationId || "",
+        nameA: participantA.name || "",
+        registrationIdB: participantB.registrationId || "",
+        nameB: participantB.name || "",
       });
 
       // Refresh match list (across all sports)
@@ -161,6 +202,8 @@ export default function Matches() {
       // Reset selection
       setRegistrationIdA("");
       setRegistrationIdB("");
+      setCustomNameA("");
+      setCustomNameB("");
     } catch (e) {
       setCreateError(e?.message || "Failed to create match");
     } finally {
@@ -168,10 +211,10 @@ export default function Matches() {
     }
   }
 
-  async function onSetWinner(matchId, winnerRegistrationId) {
+  async function onSetWinner(matchId, winnerRegistrationId, winnerName) {
     setResultSavingId(matchId);
     try {
-      await setMatchResult({ matchId, winnerRegistrationId });
+      await setMatchResult({ matchId, winnerRegistrationId, winnerName });
       const json = await fetchMatches({
         sportId: listSportId,
         page: 1,
@@ -244,7 +287,18 @@ export default function Matches() {
                   {participantLabel(p)}
                 </option>
               ))}
+              <option value="others">Others</option>
             </select>
+            {registrationIdA === "others" && (
+              <input
+                type="text"
+                value={customNameA}
+                onChange={(e) => setCustomNameA(e.target.value)}
+                placeholder="Enter name"
+                disabled={createLoading}
+                className="mt-1 h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none focus:border-slate-900"
+              />
+            )}
           </div>
 
           <div className="md:col-span-3">
@@ -263,7 +317,18 @@ export default function Matches() {
                   {participantLabel(p)}
                 </option>
               ))}
+              <option value="others">Others</option>
             </select>
+            {registrationIdB === "others" && (
+              <input
+                type="text"
+                value={customNameB}
+                onChange={(e) => setCustomNameB(e.target.value)}
+                placeholder="Enter name"
+                disabled={createLoading}
+                className="mt-1 h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none focus:border-slate-900"
+              />
+            )}
           </div>
 
           <div className="md:col-span-2">
@@ -356,12 +421,7 @@ export default function Matches() {
                   const a = m.participants?.[0];
                   const b = m.participants?.[1];
                   const winnerId = m.winnerRegistrationId;
-                  const winnerName =
-                    winnerId === a?.registrationId
-                      ? a?.name
-                      : winnerId === b?.registrationId
-                        ? b?.name
-                        : "";
+                  const winnerName = m.winnerName;
 
                   return (
                     <tr key={m._id} className="hover:bg-slate-50">
@@ -407,18 +467,26 @@ export default function Matches() {
                               defaultValue={""}
                               onChange={(e) => {
                                 const val = e.target.value;
-                                if (val) onSetWinner(m._id, val);
+                                if (val === "A") {
+                                  onSetWinner(
+                                    m._id,
+                                    a?.registrationId,
+                                    a?.name,
+                                  );
+                                } else if (val === "B") {
+                                  onSetWinner(
+                                    m._id,
+                                    b?.registrationId,
+                                    b?.name,
+                                  );
+                                }
                               }}
                               disabled={resultSavingId === m._id}
                               className="h-10 rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none focus:border-slate-900"
                             >
                               <option value="">Set winner</option>
-                              <option value={a?.registrationId || ""}>
-                                {a?.name || "-"}
-                              </option>
-                              <option value={b?.registrationId || ""}>
-                                {b?.name || "-"}
-                              </option>
+                              <option value="A">{a?.name || "-"}</option>
+                              <option value="B">{b?.name || "-"}</option>
                             </select>
                             {resultSavingId === m._id ? (
                               <span className="text-xs text-slate-500">

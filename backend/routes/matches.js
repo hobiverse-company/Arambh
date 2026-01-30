@@ -7,10 +7,11 @@ const {
   createMatch,
   setMatchResult,
 } = require('../controllers/matches');
+const { authenticateToken } = require('../middleware/auth');
 
-router.get('/participants', getParticipants);
-router.get('/', listMatches);
-router.post('/', createMatch);
-router.put('/:id/result', setMatchResult);
+router.get('/participants', authenticateToken, getParticipants);
+router.get('/', authenticateToken, listMatches);
+router.post('/', authenticateToken, createMatch);
+router.put('/:id/result', authenticateToken, setMatchResult);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const participantSchema = new mongoose.Schema(
   {
-    registrationId: { type: String, required: true },
+    registrationId: { type: String, required: false },
     name: { type: String, required: true },
   },
   { _id: false },
@@ -31,6 +31,7 @@ const matchSchema = new mongoose.Schema(
     },
 
     winnerRegistrationId: { type: String, default: null },
+    winnerName: { type: String, default: null },
     loserRegistrationId: { type: String, default: null },
 
     notes: { type: String, trim: true, maxlength: 500 },

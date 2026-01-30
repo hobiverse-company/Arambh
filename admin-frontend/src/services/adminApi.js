@@ -1,7 +1,17 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-async function fetchJson(path, { signal } = {}) {
-  const res = await fetch(`${API_BASE_URL}${path}`, { signal });
+async function fetchJson(path, { signal, method = 'GET', body } = {}) {
+  const token = localStorage.getItem('token');
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  const res = await fetch(`${API_BASE_URL}${path}`, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+    signal,
+  });
   const json = await res.json().catch(() => null);
   if (!res.ok || !json?.success) {
     throw new Error(json?.message || `Request failed (${res.status})`);
@@ -49,13 +59,30 @@ export async function fetchMatches(
 }
 
 export async function createMatch(
-  { sportId, registrationIdA, registrationIdB },
+  { sportId, sportName, sportCategory, registrationIdA, nameA, registrationIdB, nameB },
   { signal } = {},
 ) {
+  const token = localStorage.getItem('token');
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
   const res = await fetch(`${API_BASE_URL}/api/matches`, {
     method: 'POST',
+    headers,
+    body: JSON.stringify({ sportId, sportName, sportCategory, registrationIdA, nameA, registrationIdB, nameB }),
+    signal,
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok || !json?.success) {
+    throw new Error(json?.message || `Request failed (${res.status})`);
+  }
+  return json;
+}
+
+export async function login({ username, password }, { signal } = {}) {
+  const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sportId, registrationIdA, registrationIdB }),
+    body: JSON.stringify({ username, password }),
     signal,
   });
   const json = await res.json().catch(() => null);
@@ -66,13 +93,16 @@ export async function createMatch(
 }
 
 export async function setMatchResult(
-  { matchId, winnerRegistrationId },
+  { matchId, winnerRegistrationId, winnerName },
   { signal } = {},
 ) {
+  const token = localStorage.getItem('token');
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
   const res = await fetch(`${API_BASE_URL}/api/matches/${matchId}/result`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ winnerRegistrationId }),
+    headers,
+    body: JSON.stringify({ winnerRegistrationId, winnerName }),
     signal,
   });
   const json = await res.json().catch(() => null);
