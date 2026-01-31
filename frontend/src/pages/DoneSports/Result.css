@@ -1,37 +1,40 @@
 .resultSection {
   width: 100%;
-  padding: 56px 18px 80px;
+  padding: 80px 20px 100px;
   min-height: 100vh;
+  position: relative;
 }
 
 .resultHeader {
-  width: min(1180px, 100%);
-  margin: 0 auto 24px;
+  width: min(1200px, 100%);
+  margin: 0 auto 40px;
   text-align: center;
 }
 
 .resultTitle {
-  margin: 0 0 10px;
+  margin: 0 0 16px;
   color: rgba(255, 255, 255, 0.96);
   font-weight: 900;
-  font-size: clamp(34px, 6vw, 56px);
+  font-size: clamp(32px, 6vw, 48px);
   letter-spacing: 1px;
-  line-height: 1.05;
   transform: skewX(-10deg);
-  text-shadow: 0 5px 0 rgba(0, 0, 0, 0.35), 0 20px 42px rgba(0, 0, 0, 0.3);
-  -webkit-text-stroke: 1.3px rgba(0, 0, 0, 0.26);
+  text-shadow:
+    0 5px 0 rgba(0, 0, 0, 0.35),
+    0 20px 42px rgba(0, 0, 0, 0.3);
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.26);
 }
 
 .resultSubtitle {
   margin: 0;
   color: rgba(255, 255, 255, 0.78);
-  font-size: clamp(13px, 1.8vw, 18px);
+  font-size: clamp(16px, 2vw, 20px);
+  line-height: 1.4;
 }
 
-/* Filters Section */
+/* Filters */
 .resultFilters {
-  width: min(1180px, 100%);
-  margin: 0 auto 24px;
+  width: min(1200px, 100%);
+  margin: 0 auto 32px;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -42,152 +45,50 @@
 .filterGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .filterLabel {
   color: rgba(255, 255, 255, 0.85);
-  font-weight: 700;
-  font-size: 12px;
+  font-weight: 600;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .filterSelect {
-  padding: 12px 18px;
+  padding: 12px 16px;
   border-radius: 8px;
-  border: 2px solid rgba(255, 150, 55, 0.5);
-  background: rgba(34, 20, 96, 0.85);
-  color: rgba(255, 255, 255, 0.92);
-  font-weight: 600;
+  border: 2px solid rgba(255, 150, 55, 0.4);
+  background: rgba(34, 20, 96, 0.8);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
   font-size: 14px;
   cursor: pointer;
-  min-width: 200px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 180px;
+  transition: border-color 0.2s ease;
 }
 
 .filterSelect:hover,
 .filterSelect:focus {
-  border-color: rgba(255, 150, 55, 0.85);
-  box-shadow: 0 0 16px rgba(255, 142, 47, 0.35);
+  border-color: rgba(255, 150, 55, 0.7);
   outline: none;
 }
 
 .filterSelect option {
   background: #221460;
-  color: rgba(255, 255, 255, 0.92);
-  padding: 10px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.resetFilterBtn {
-  padding: 12px 24px;
-  border-radius: 8px;
-  border: 2px solid rgba(255, 150, 55, 0.5);
-  background: linear-gradient(180deg, #ffb24a 0%, #ff8e2f 45%, #f1771f 100%);
-  color: white;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
-}
-
-.resetFilterBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(255, 142, 47, 0.45);
-}
-
-.resetFilterBtn:active {
-  transform: translateY(1px);
-}
-
-/* Sports Tabs */
-.sportsTabs {
-  width: min(1180px, 100%);
-  margin: 0 auto 24px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.sportTab {
-  padding: 10px 20px;
-  border-radius: 30px;
-  border: 2px solid rgba(255, 150, 55, 0.4);
-  background: rgba(34, 20, 96, 0.6);
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sportTab:hover {
-  background: rgba(255, 142, 47, 0.2);
-  border-color: rgba(255, 150, 55, 0.7);
-}
-
-.sportTabActive {
-  background: linear-gradient(180deg, #ffb24a 0%, #ff8e2f 45%, #f1771f 100%);
-  border-color: rgba(255, 200, 100, 0.8);
-  color: white;
-  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
-  box-shadow: 0 6px 20px rgba(255, 142, 47, 0.4);
-}
-
-.sportTabIcon {
-  font-size: 18px;
-}
-
-/* Stats Cards */
-.resultStats {
-  width: min(1180px, 100%);
-  margin: 0 auto 28px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 16px;
-}
-
-.statCard {
-  padding: 20px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(34, 20, 96, 0.92) 0%, rgba(23, 12, 70, 0.92) 100%);
-  border: 2px solid rgba(255, 150, 55, 0.4);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  text-align: center;
-}
-
-.statValue {
-  font-size: 32px;
-  font-weight: 900;
-  color: #ff8e2f;
-  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
-  margin-bottom: 6px;
-}
-
-.statLabel {
-  font-size: 12px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Table Container */
+/* Results Container */
 .resultTableWrap {
-  width: min(1180px, 100%);
-  margin: 0 auto;
+  width: min(1200px, 100%);
+  margin: 0 auto 32px;
   border-radius: 12px;
   overflow: hidden;
-  border: 2px solid rgba(255, 150, 55, 0.45);
-  background: rgba(0, 0, 0, 0.18);
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.32);
+  background: rgba(34, 20, 96, 0.9);
+  border: 2px solid rgba(255, 150, 55, 0.3);
+  backdrop-filter: blur(10px);
 }
 
 .resultTableContainer {
@@ -198,76 +99,42 @@
 .resultTable {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;
+  min-width: 800px;
 }
 
 .resultTable thead th {
-  background: linear-gradient(180deg, #ffb24a 0%, #ff8e2f 45%, #f1771f 100%);
-  color: rgba(255, 255, 255, 0.98);
-  font-weight: 900;
+  background: rgba(255, 142, 47, 0.9);
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 700;
   font-size: 14px;
-  padding: 16px 18px;
-  text-align: center;
-  letter-spacing: 0.8px;
+  padding: 16px 20px;
+  text-align: left;
   text-transform: uppercase;
-  border-bottom: 3px solid rgba(0, 0, 0, 0.22);
-  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
-}
-
-.resultTable thead th + th {
-  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.5px;
 }
 
 .resultTable tbody tr {
-  transition: background-color 0.25s ease;
-}
-
-.resultTable tbody tr:nth-child(odd) {
-  background: rgba(34, 20, 96, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s ease;
 }
 
 .resultTable tbody tr:nth-child(even) {
-  background: rgba(23, 12, 70, 0.45);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .resultTable tbody tr:hover {
-  background: rgba(255, 142, 47, 0.15);
+  background: rgba(255, 142, 47, 0.08);
 }
 
 .resultTable tbody tr.upcomingRow {
-  background: rgba(100, 100, 200, 0.15);
-}
-
-.resultTable tbody tr.upcomingRow:hover {
-  background: rgba(100, 100, 200, 0.25);
+  background: rgba(100, 100, 200, 0.1);
 }
 
 .resultTable tbody td {
-  color: rgba(255, 255, 255, 0.88);
-  padding: 16px 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-weight: 600;
-  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 16px 20px;
+  font-weight: 500;
   vertical-align: middle;
-}
-
-.resultTable tbody td + td {
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Match ID Badge */
-.matchIdBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ff8e2f 0%, #f1771f 100%);
-  color: white;
-  font-weight: 800;
-  font-size: 14px;
-  box-shadow: 0 4px 12px rgba(255, 142, 47, 0.4);
 }
 
 /* Sport Badge */
@@ -277,21 +144,15 @@
   gap: 6px;
   padding: 6px 12px;
   border-radius: 20px;
-  background: rgba(255, 142, 47, 0.2);
-  border: 1px solid rgba(255, 142, 47, 0.4);
+  background: rgba(255, 142, 47, 0.15);
+  border: 1px solid rgba(255, 142, 47, 0.3);
   font-size: 13px;
   font-weight: 600;
+  color: #ff8e2f;
 }
 
 .sportBadgeIcon {
   font-size: 14px;
-}
-
-/* Date Cell */
-.dateCell {
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 13px;
-  white-space: nowrap;
 }
 
 /* Team Name with Tooltip */
@@ -307,22 +168,23 @@
   gap: 6px;
   padding: 8px 14px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: all 0.25s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s ease;
 }
 
 .teamNameWrapper:hover .teamName {
-  background: rgba(255, 142, 47, 0.2);
-  border-color: rgba(255, 142, 47, 0.5);
-  transform: translateY(-2px);
+  background: rgba(255, 142, 47, 0.15);
+  border-color: rgba(255, 142, 47, 0.3);
+  transform: translateY(-1px);
 }
 
 .winnerTeam {
-  background: rgba(255, 215, 0, 0.15) !important;
-  border-color: rgba(255, 215, 0, 0.5) !important;
+  background: rgba(255, 215, 0, 0.1) !important;
+  border-color: rgba(255, 215, 0, 0.3) !important;
   color: #ffd700 !important;
 }
 
@@ -336,7 +198,11 @@
   visibility: hidden;
   padding: 10px 16px;
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(34, 20, 96, 0.98) 0%, rgba(23, 12, 70, 0.98) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(34, 20, 96, 0.98) 0%,
+    rgba(23, 12, 70, 0.98) 100%
+  );
   border: 2px solid rgba(255, 150, 55, 0.7);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   white-space: nowrap;
@@ -377,78 +243,89 @@
   font-weight: 700;
 }
 
-/* Winner Badge */
-.resultCell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
+/* Result Status */
 .winnerBadge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border-radius: 30px;
-  background: linear-gradient(135deg, #ffd700 0%, #ffb24a 50%, #ff8e2f 100%);
-  color: rgba(0, 0, 0, 0.85);
-  font-weight: 800;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255, 215, 0, 0.15);
+  color: #ffd700;
+  font-weight: 700;
   font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.3);
 }
 
-.trophyIcon {
-  font-size: 14px;
-}
-
-/* To Be Played Badge */
 .toBePlayedBadge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border-radius: 30px;
-  background: linear-gradient(135deg, rgba(100, 100, 255, 0.3) 0%, rgba(80, 80, 200, 0.4) 100%);
-  color: rgba(255, 255, 255, 0.9);
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(100, 100, 255, 0.15);
+  color: rgba(150, 150, 255, 0.9);
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid rgba(100, 150, 255, 0.3);
+}
+
+/* Individual Results */
+.individualResultCard {
+  width: min(1200px, 100%);
+  margin: 0 auto 24px;
+  padding: 24px;
+  border-radius: 12px;
+  background: rgba(34, 20, 96, 0.9);
+  border: 2px solid rgba(255, 150, 55, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.individualResultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.individualEventName {
+  font-size: 20px;
   font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.individualEventDate {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 6px 14px;
+  background: rgba(255, 142, 47, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 142, 47, 0.2);
+}
+
+.individualResultStatus {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 16px rgba(100, 100, 255, 0.2);
-  border: 2px solid rgba(100, 150, 255, 0.5);
-  animation: pulse 2s ease-in-out infinite;
 }
 
-.clockIcon {
-  font-size: 14px;
+.statusCompleted {
+  background: rgba(80, 200, 120, 0.15);
+  color: #50c878;
+  border: 1px solid rgba(80, 200, 120, 0.3);
 }
 
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 4px 16px rgba(100, 100, 255, 0.2);
-  }
-  50% {
-    box-shadow: 0 4px 24px rgba(100, 150, 255, 0.4);
-  }
-}
-
-/* VS Badge */
-.vsText {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(255, 142, 47, 0.2);
-  border: 2px solid rgba(255, 142, 47, 0.5);
-  color: #ff8e2f;
-  font-weight: 900;
-  font-size: 11px;
-  text-transform: uppercase;
+.statusUpcoming {
+  background: rgba(100, 100, 255, 0.15);
+  color: rgba(150, 150, 255, 0.9);
+  border: 1px solid rgba(100, 150, 255, 0.3);
 }
 
 /* No Results */
@@ -459,7 +336,7 @@
 }
 
 .noResultsIcon {
-  font-size: 56px;
+  font-size: 48px;
   margin-bottom: 16px;
   opacity: 0.6;
 }
@@ -475,68 +352,232 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Individual Sport Results */
-.individualResultCard {
-  width: min(1180px, 100%);
-  margin: 0 auto 20px;
-  padding: 24px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(34, 20, 96, 0.85) 0%, rgba(23, 12, 70, 0.85) 100%);
+/* Reset Button */
+.resetFilterBtn {
+  padding: 12px 24px;
+  border-radius: 8px;
   border: 2px solid rgba(255, 150, 55, 0.4);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.individualResultHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.individualEventName {
-  font-size: 20px;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.95);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.individualEventDate {
+  background: rgba(255, 142, 47, 0.1);
+  color: #ff8e2f;
+  font-weight: 600;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  padding: 6px 14px;
-  background: rgba(255, 142, 47, 0.15);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 142, 47, 0.3);
-}
-
-.individualResultStatus {
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 12px;
+  cursor: pointer;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
 }
 
-.statusCompleted {
-  background: linear-gradient(135deg, rgba(80, 200, 120, 0.3) 0%, rgba(60, 180, 100, 0.4) 100%);
-  color: #50c878;
-  border: 1px solid rgba(80, 200, 120, 0.5);
+.resetFilterBtn:hover {
+  background: rgba(255, 142, 47, 0.2);
+  border-color: rgba(255, 150, 55, 0.7);
 }
 
-.statusUpcoming {
-  background: linear-gradient(135deg, rgba(100, 100, 255, 0.2) 0%, rgba(80, 80, 200, 0.3) 100%);
-  color: rgba(150, 150, 255, 0.9);
-  border: 1px solid rgba(100, 150, 255, 0.4);
+/* ===== STATS BAR (FINAL) ===== */
+
+.statsBar {
+  width: min(1200px, 100%);
+  margin: 0 auto 40px;
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
+  align-items: center;
+  padding: 26px 30px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    rgba(34, 20, 96, 0.96),
+    rgba(23, 12, 70, 0.96)
+  );
+  border: 2px solid rgba(255, 150, 55, 0.35);
+  backdrop-filter: blur(12px);
+}
+
+.statsItem {
+  text-align: center;
+}
+
+.statsValue {
+  font-size: 36px;
+  font-weight: 900;
+  color: #ff8e2f;
+  margin-bottom: 6px;
+}
+
+.statsLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Slanted divider like image */
+.statsDivider {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 150, 55, 0.75),
+    transparent
+  );
+  transform: skewX(-18deg);
+  justify-self: center;
+}
+
+/* ===== MOBILE & TABLET ===== */
+
+@media (max-width: 768px) {
+  .statsBar {
+    padding: 18px 16px;
+  }
+
+  .statsValue {
+    font-size: 24px;
+  }
+
+  .statsLabel {
+    font-size: 10px;
+  }
+
+  .statsDivider {
+    height: 100%;
+  }
+}
+/* ===== SPORTS TABS CONTAINER ===== */
+
+.sports-tabs-container {
+  width: min(1200px, 100%);
+  margin: 0 auto 36px;
+}
+
+.scroll-hint {
+  display: none;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.scroll-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* Mobile: show scroll hint */
+@media (max-width: 768px) {
+  .scroll-hint {
+    display: flex;
+  }
+}
+
+/* ===== SPORTS BAR ===== */
+
+.sportsBar {
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(34, 20, 96, 0.95),
+    rgba(23, 12, 70, 0.95)
+  );
+  border: 2px solid rgba(255, 150, 55, 0.35);
+  backdrop-filter: blur(12px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sportsBar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== INDIVIDUAL SPORT ITEM ===== */
+
+.sportsBarItem {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column; /* ICON TOP, TEXT BOTTOM */
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
+  font-size: 12px;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+/* Icon */
+.sportsBarIcon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Label */
+.sportsBarText {
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  text-transform: capitalize;
+}
+
+/* ===== ACTIVE STATE (FULL CONTAINER) ===== */
+
+.sportsBarItemActive {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 142, 47, 0.28),
+    rgba(255, 142, 47, 0.14)
+  );
+  border-radius: 12px;
+  color: #ff8e2f;
+}
+
+/* Active glow */
+.sportsBarItemActive .sportsBarIcon {
+  filter: drop-shadow(0 0 6px rgba(255, 142, 47, 0.8));
+}
+
+/* Hover */
+.sportsBarItem:hover {
+  background: rgba(255, 142, 47, 0.12);
+}
+
+/* ===== MOBILE (SAME DESIGN) ===== */
+
+@media (max-width: 768px) {
+  .sportsBar {
+    padding: 8px;
+  }
+
+  .sportsBarItem {
+    padding: 12px 8px;
+  }
+
+  .sportsBarIcon {
+    font-size: 18px;
+  }
+
+  .sportsBarText {
+    font-size: 10px;
+  }
+
+  .sportsBarItem:not(:last-child)::after {
+    height: 28px;
+  }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .resultSection {
-    padding: 40px 12px 60px;
+    padding: 60px 16px 80px;
   }
 
   .resultFilters {
@@ -557,34 +598,19 @@
     width: 100%;
   }
 
-  .sportsTabs {
-    gap: 8px;
-  }
-
-  .sportTab {
-    padding: 8px 14px;
-    font-size: 12px;
-  }
-
   .resultTable {
     min-width: 600px;
   }
 
   .resultTable thead th,
   .resultTable tbody td {
-    padding: 12px 10px;
-    font-size: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
   }
 
   .teamName {
     padding: 6px 10px;
-    font-size: 11px;
-  }
-
-  .winnerBadge,
-  .toBePlayedBadge {
-    padding: 8px 12px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .captainTooltip {
@@ -605,44 +631,84 @@
 
   .resultStats {
     grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .statCard {
+    padding: 20px;
+  }
+
+  .statValue {
+    font-size: 28px;
+  }
+}
+
+/* Mobile Sports Bar Improvements */
+@media (max-width: 768px) {
+  .sportsBar {
+    padding: 8px;
+    margin-bottom: 24px;
+    border-radius: 12px;
+  }
+
+  .sportsBarItem {
+    padding: 12px 8px;
+    min-width: 70px;
+    gap: 4px;
+  }
+
+  .sportsBarIcon {
+    font-size: 18px;
+  }
+
+  .sportsBarText {
+    font-size: 10px;
+    line-height: 1.2;
   }
 }
 
 @media (max-width: 480px) {
   .resultTitle {
-    font-size: clamp(28px, 8vw, 40px);
+    font-size: clamp(24px, 8vw, 36px);
   }
 
-  .matchIdBadge {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
-  }
-
-  .vsText {
-    width: 28px;
-    height: 28px;
-    font-size: 10px;
+  .resultStats {
+    grid-template-columns: 1fr;
   }
 
   .statCard {
-    padding: 14px;
+    padding: 16px;
   }
 
   .statValue {
     font-size: 24px;
   }
 
-  .statLabel {
-    font-size: 10px;
+  .sportsBar {
+    padding: 6px;
+  }
+
+  .sports-tabs-container {
+    margin-bottom: 20px;
+  }
+
+  .sportsBarItem {
+    padding: 10px 6px;
+    min-width: 60px;
+    gap: 3px;
+  }
+
+  .sportsBarIcon {
+    font-size: 16px;
+  }
+
+  .sportsBarText {
+    font-size: 9px;
+    letter-spacing: 0.2px;
   }
 
   .sportTab {
-    padding: 6px 10px;
-    font-size: 11px;
-  }
-
-  .sportTabIcon {
-    font-size: 14px;
+    padding: 8px 12px;
+    font-size: 12px;
   }
 }

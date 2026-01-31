@@ -115,7 +115,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Result/>
+      <Result />
 
       {/* NEWS & ANNOUNCEMENTS */}
       <NewsAnnouncements />
