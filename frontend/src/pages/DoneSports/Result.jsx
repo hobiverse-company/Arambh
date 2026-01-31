@@ -3,7 +3,7 @@ import { sportsConfig, eventDates } from "./WinningData.js";
 import "./Result.css";
 
 const Result = () => {
-  const [selectedSport, setSelectedSport] = useState("all");
+  const [selectedSport, setSelectedSport] = useState("cricket");
   const [selectedDate, setSelectedDate] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
 
@@ -103,8 +103,8 @@ const Result = () => {
 
   const hasActiveFilters =
     selectedSport !== "cricket" ||
-    selectedDate !== "2026-01-30" ||
-    selectedStatus !== "completed";
+    selectedDate !== "all" ||
+    selectedStatus !== "all";
   const showTeamResults =
     selectedSportType === "all" || selectedSportType === "team";
   const showIndividualResults =
